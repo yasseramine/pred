@@ -181,6 +181,7 @@ nav ul li a i {
 	grid-template-areas: "l l l m m m m m m r r r";
 
 	padding: 1rem;
+	color: var(--dark-theme-primary-text-color);
 }
 .left {
 	grid-area: l;
@@ -200,9 +201,6 @@ nav ul li a i {
 	border-radius: 0.5rem;
 }
 /* FAVOURITES */
-.favourites {
-	color: var(--dark-theme-primary-text-color);
-}
 .favourites .list-name {
 	display: flex;
 	align-items: center;
@@ -234,16 +232,12 @@ nav ul li a i {
 	margin-right: 0.5rem;
 }
 /* TRENDING */
-.trending {
-	color: var(--dark-theme-primary-text-color);
-}
 .trending .header {
 	padding: 0.75rem 0.75rem;
 	font-size: 1.2rem;
 }
 .trending .main a {
 	text-decoration: none;
-	color: var(--dark-theme-primary-text-color);
 	font-size: 1rem;
 }
 .trending .main a:hover {
@@ -294,7 +288,6 @@ nav ul li a i {
 /* HOME */
 .home {
 	width: 100%;
-	color: var(--dark-theme-primary-text-color);
 }
 .home .filter {
 	display: flex;
@@ -382,7 +375,6 @@ nav ul li a i {
 	padding: 0.25rem;
 	margin: 0 1rem;
 	border-radius: 2rem;
-	color: var(--dark-theme-primary-text-color);
 	background-color: var(--dark-theme-bg-sec-color);
 
 	font-size: 0.9rem;
@@ -399,7 +391,6 @@ nav ul li a i {
 	height: 32px;
 	margin-left: 1rem;
 
-	color: var(--dark-theme-primary-text-color);
 	background-color: var(--dark-theme-bg-sec-color);
 
 	padding: 0.25rem;
@@ -407,7 +398,6 @@ nav ul li a i {
 	cursor: pointer;
 }
 .home .list .league .matches .match .predict:hover {
-	color: var(--dark-theme-primary-text-color);
 	background-color: var(--dark-theme-bg-pri-color);
 }
 
@@ -418,7 +408,6 @@ nav ul li a i {
 }
 .select-btn {
 	position: relative;
-	color: var(--dark-theme-primary-text-color);
 	padding: 0.25rem;
 }
 .select-btn .select {
@@ -473,6 +462,66 @@ nav ul li a i {
 	height: 20px;
 
 	margin-right: 0.5rem;
+}
+/* SELECTED COUNTRY AND LEAGUE */
+.selected-country-league {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.selected-country-league .league,
+.selected-country-league .country {
+	margin: 0.5rem 2rem;
+	position: relative;
+}
+.selected-country-league img {
+	width: 120px;
+	height: 120px;
+
+	border-radius: 100%;
+	overflow: hidden;
+
+	margin-bottom: 0.5rem;
+
+	background-color: #fff;
+}
+.selected-country-league .info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.selected-country-league img:hover + .favourite {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 100%;
+}
+.selected-country-league .league .favourite,
+.selected-country-league .country .favourite {
+	display: none;
+
+	width: 120px;
+	height: 120px;
+
+	background-color: rgba(0, 0, 0, 0.2);
+
+	position: absolute;
+
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 99;
+
+	color: var(--dark-theme-bg-pri-color);
+	cursor: pointer;
+}
+.selected-country-league .league .favourite:hover,
+.selected-country-league .country .favourite:hover {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
 }
 /* HIDE */
 .hide {
