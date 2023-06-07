@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ABC Predict</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./src/css/style.css" />
+		<link
+			rel="stylesheet"
+			href="./src/fontawesome-free-6.4.0-web/css/fontawesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./src/fontawesome-free-6.4.0-web/css/solid.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./src/fontawesome-free-6.4.0-web/css/regular.min.css"
+		/>
+		<script src="./src/js/fetchAPI.js" defer></script>
+		<script src="./src/js/app.js" defer></script>
+	</head>
+	<body>
+		<div class="app-container">
+			<header>
+				<div class="logo">
+					<img src="./src/images/logo.png" alt="ABC Predict logo" />
+					ABCPredict
+				</div>
+				<nav>
+					<ul>
+						<li>
+							<a href="/football">
+								<i class="fa-solid fa-futbol"></i>
+								Football
+							</a>
+						</li>
+						<li>
+							<a href="/basketball" class="">
+								<i class="fa-solid fa-basketball"></i>
+								Basketball
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="theme-toggler">
+					<label class="switch">
+						<input type="checkbox" checked />
+						<div class="slider round">
+							<i class="fa-regular fa-moon dark"></i>
+							<i class="fa-regular fa-sun light"></i>
+						</div>
+					</label>
+				</div>
+			</header>
+			<div class="container">
+				<div class="left favourites">
+					<div id="leagues">
+						<div class="list-name">
+							<div>My Leagues</div>
+							<div class="drop-down">
+								<i class="fa-solid fa-angle-down"></i>
+							</div>
+						</div>
+						<div class="list">
+							<ul>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									La liga
+								</li>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									Premier league
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div id="teams">
+						<div class="list-name">
+							<div>My Teams</div>
+							<div class="drop-down">
+								<i class="fa-solid fa-angle-down"></i>
+							</div>
+						</div>
+						<div class="list">
+							<ul>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									La liga
+								</li>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									Premier league
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div id="countries">
+						<div class="list-name">
+							<div>Countries</div>
+							<div class="drop-down">
+								<i class="fa-solid fa-angle-down"></i>
+							</div>
+						</div>
+						<div class="list">
+							<ul>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									La liga
+								</li>
+								<li>
+									<img
+										src="./src/images/logo.png"
+										alt="La Liga"
+									/>
+									Premier league
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="main">
+					<div class="home">
+						<div class="filter">
+							<div class="btn active">All</div>
+							<div class="btn">Live</div>
+							<div class="btn">Finished</div>
+						</div>
+						<div class="list">
+							<div class="league" id="1">
+								<div class="header">
+									<img src="./src/images/logo.png" />
+									<div class="name">
+										La liga
+										<span>Spain</span>
+									</div>
+								</div>
+								<div class="matches">
+									<div class="match">
+										<div class="time">84'</div>
+										<div class="teamA">
+											<img src="./src/images/logo.png" />
+											Real Sociedad
+										</div>
+										<div class="score">
+											<div class="teamA">1</div>
+											:
+											<div class="teamB">2</div>
+										</div>
+										<div class="teamB">
+											Real Madrid
+											<img src="./src/images/logo.png" />
+										</div>
+										<div class="predict">
+											<i
+												class="fa-solid fa-chart-simple"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="right trending">
+					<div class="header">Tending News 🔥</div>
+					<div class="main">
+						<a href="#">
+							<img
+								src="https://editorial.uefa.com/resources/0281-180f5137940d-1efab5661f2d-1000/format/wide1/ucl_final_preview.jpeg?imwidth=2048"
+								alt="champions league final"
+							/>
+							<div class="title">
+								Champions League final preview: Man City vs
+								Inter – where to watch, kick-off time, possible
+								line-ups, form guide
+							</div>
+						</a>
+					</div>
+					<div class="list">
+						<ul>
+							<li>
+								<a href="#">
+									<img
+										src="https://editorial.uefa.com/resources/0281-180f5137940d-1efab5661f2d-1000/format/wide1/ucl_final_preview.jpeg?imwidth=2048"
+										alt="champions league final"
+									/>
+									<div class="title">
+										Champions League final preview: Man City
+										vs Inter – where to watch, kick-off
+										time, possible line-ups, form guide
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img
+										src="https://editorial.uefa.com/resources/0281-180f5137940d-1efab5661f2d-1000/format/wide1/ucl_final_preview.jpeg?imwidth=2048"
+										alt="champions league final"
+									/>
+									<div class="title">
+										Champions League final preview: Man City
+										vs Inter – where to watch, kick-off
+										time, possible line-ups, form guide
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img
+										src="https://editorial.uefa.com/resources/0281-180f5137940d-1efab5661f2d-1000/format/wide1/ucl_final_preview.jpeg?imwidth=2048"
+										alt="champions league final"
+									/>
+									<div class="title">
+										Champions League final preview: Man City
+										vs Inter – where to watch, kick-off
+										time, possible line-ups, form guide
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img
+										src="https://editorial.uefa.com/resources/0281-180f5137940d-1efab5661f2d-1000/format/wide1/ucl_final_preview.jpeg?imwidth=2048"
+										alt="champions league final"
+									/>
+									<div class="title">
+										Champions League final preview: Man City
+										vs Inter – where to watch, kick-off
+										time, possible line-ups, form guide
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
