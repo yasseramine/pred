@@ -412,12 +412,16 @@ nav ul li a i {
 }
 
 /* COUNTRIES SELECT BTN */
-.countries-select-btn {
+.select-btns {
+	display: flex;
+	padding: 0.75rem;
+}
+.select-btn {
 	position: relative;
 	color: var(--dark-theme-primary-text-color);
-	padding: 1rem;
+	padding: 0.25rem;
 }
-.countries-select-btn .country-select {
+.select-btn .select {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -428,10 +432,10 @@ nav ul li a i {
 
 	cursor: pointer;
 }
-.countries-select-btn .country-select:hover {
+.select-btn .select:hover {
 	background-color: var(--dark-theme-bg-pri-color);
 }
-.countries-select-btn .country-list {
+.select-btn .list {
 	position: absolute;
 	background-color: var(--dark-theme-secondary-text-color);
 	color: var(--dark-mode-color);
@@ -442,8 +446,10 @@ nav ul li a i {
 
 	overflow-x: hidden;
 	overflow-y: auto;
+	z-index: 999;
 }
-.countries-select-btn .country-list .country {
+.select-btn .list .country,
+.select-btn .list .league {
 	display: flex;
 	align-items: center;
 
@@ -456,11 +462,13 @@ nav ul li a i {
 
 	display: -webkit-box;
 }
-.countries-select-btn .country-list .country:hover {
+.select-btn .list .country:hover,
+.select-btn .list .league:hover {
 	background-color: var(--dark-theme-bg-pri-color);
 	color: var(--dark-theme-primary-text-color);
 }
-.countries-select-btn .country-list .country img {
+.select-btn .list .country img,
+.select-btn .list .league img {
 	width: 20px;
 	height: 20px;
 
