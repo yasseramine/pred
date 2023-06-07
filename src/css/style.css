@@ -410,3 +410,64 @@ nav ul li a i {
 	color: var(--dark-theme-primary-text-color);
 	background-color: var(--dark-theme-bg-pri-color);
 }
+
+/* COUNTRIES SELECT BTN */
+.countries-select-btn {
+	position: relative;
+	color: var(--dark-theme-primary-text-color);
+	padding: 1rem;
+}
+.countries-select-btn .country-select {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 150px;
+	padding: 0.5rem;
+	border-radius: 10px;
+	background-color: var(--dark-theme-bg-sec-color);
+
+	cursor: pointer;
+}
+.countries-select-btn .country-select:hover {
+	background-color: var(--dark-theme-bg-pri-color);
+}
+.countries-select-btn .country-list {
+	position: absolute;
+	background-color: var(--dark-theme-secondary-text-color);
+	color: var(--dark-mode-color);
+
+	border-radius: 8px;
+	width: 200px;
+	max-height: 400px;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.countries-select-btn .country-list .country {
+	display: flex;
+	align-items: center;
+
+	margin: 0.5rem;
+	padding: 0.5rem;
+
+	border-radius: 8px;
+
+	cursor: pointer;
+
+	display: -webkit-box;
+}
+.countries-select-btn .country-list .country:hover {
+	background-color: var(--dark-theme-bg-pri-color);
+	color: var(--dark-theme-primary-text-color);
+}
+.countries-select-btn .country-list .country img {
+	width: 20px;
+	height: 20px;
+
+	margin-right: 0.5rem;
+}
+/* HIDE */
+.hide {
+	display: none !important;
+	visibility: hidden !important;
+}
