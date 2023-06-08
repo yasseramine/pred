@@ -401,44 +401,64 @@ nav ul li a i {
 	background-color: var(--dark-theme-bg-pri-color);
 }
 
-/* COUNTRIES SELECT BTN */
-.select-btns {
+/****** FOOTBALL PAGE *******/
+.football .header {
+	padding: 1rem 1rem 0 1rem;
+	font-size: 1.2rem;
+
 	display: flex;
-	padding: 0.75rem;
+	justify-content: center;
 }
-.select-btn {
+.football .sides {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem;
+}
+.football .sides .side {
+	width: 100%;
+}
+.football .sides .side .select-item {
 	position: relative;
 	padding: 0.25rem;
+	margin-top: 1rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-.select-btn .select {
+.football .sides .side .select-item .select-btn {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	width: 150px;
+	height: 2.5rem;
 	padding: 0.5rem;
 	border-radius: 10px;
 	background-color: var(--dark-theme-bg-sec-color);
 
 	cursor: pointer;
 }
-.select-btn .select:hover {
+.football .sides .side .select-item .select-btn:hover {
 	background-color: var(--dark-theme-bg-pri-color);
 }
-.select-btn .list {
+.football .sides .side .select-item .list {
 	position: absolute;
 	background-color: var(--dark-theme-secondary-text-color);
 	color: var(--dark-mode-color);
 
 	border-radius: 8px;
-	width: 200px;
+	width: 300px;
 	max-height: 400px;
+
+	top: 3rem;
+	left: 50%;
+	transform: translateX(-50%);
 
 	overflow-x: hidden;
 	overflow-y: auto;
 	z-index: 999;
 }
-.select-btn .list .country,
-.select-btn .list .league {
+.football .sides .side .select-item .list .item {
 	display: flex;
 	align-items: center;
 
@@ -451,54 +471,49 @@ nav ul li a i {
 
 	display: -webkit-box;
 }
-.select-btn .list .country:hover,
-.select-btn .list .league:hover {
+.football .sides .side .select-item .list .item:hover {
 	background-color: var(--dark-theme-bg-pri-color);
 	color: var(--dark-theme-primary-text-color);
 }
-.select-btn .list .country img,
-.select-btn .list .league img {
+.football .sides .side .select-item .list .item img {
 	width: 20px;
 	height: 20px;
 
 	margin-right: 0.5rem;
 }
-/* SELECTED COUNTRY AND LEAGUE */
-.selected-country-league {
+.football .sides .side .selected-item {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.selected-country-league .league,
-.selected-country-league .country {
+.football .sides .side .selected-item .item {
 	margin: 0.5rem 2rem;
 	position: relative;
 }
-.selected-country-league img {
-	width: 120px;
-	height: 120px;
-
-	border-radius: 100%;
-	overflow: hidden;
-
-	margin-bottom: 0.5rem;
-
-	background-color: #fff;
-}
-.selected-country-league .info {
+.football .sides .side .selected-item .item .info {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.selected-country-league img:hover + .favourite {
+.football .sides .side .selected-item .item .flag {
+	width: 100px;
+	height: 100px;
+
+	border-radius: 8px;
+	overflow: hidden;
+
+	margin-bottom: 0.5rem;
+
+	background-image: url("/src/images/unknown.svg");
+}
+.football .sides .side .selected-item .item .flag:hover + .favourite {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 100%;
 }
-.selected-country-league .league .favourite,
-.selected-country-league .country .favourite {
+.football .sides .side .selected-item .item .info .favourite {
 	display: none;
 
 	width: 120px;
@@ -513,15 +528,15 @@ nav ul li a i {
 	transform: translateX(-50%);
 	z-index: 99;
 
+	border-radius: 8px;
+
 	color: var(--dark-theme-bg-pri-color);
 	cursor: pointer;
 }
-.selected-country-league .league .favourite:hover,
-.selected-country-league .country .favourite:hover {
+.football .sides .side .selected-item .item .info .favourite:hover {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-radius: 100%;
 }
 /* HIDE */
 .hide {

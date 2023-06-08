@@ -25,7 +25,7 @@
 			href="/src/fontawesome-free-6.4.0-web/css/regular.min.css"
 		/>
 		<script src="/src/js/fetchAPI.js" defer></script>
-		<script src="/src/js/app.js" defer></script>
+		<script src="/src/js/football.js" defer></script>
 	</head>
 	<body>
 		<div class="app-container">
@@ -149,54 +149,210 @@
 				</div>
 				<div class="main">
 					<div class="football">
-						<div class="select-btns">
-							<div class="countries select-btn">
-								<div class="country-select select">
-									Country
-									<i class="fa-solid fa-angle-down"></i>
+						<div class="header">Match Prediction</div>
+						<div class="sides">
+							<div class="sideA side">
+								<div id="select-country-a" class="select-item">
+									<div class="select-btn">
+										Country A
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="country"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											England
+										</div>
+									</div>
 								</div>
-								<div class="country-list list hide">
-									<div class="country" id="1" code="en">
-										<img src="/src/images/logo.png" />
-										England
+								<div
+									id="selected-country-a"
+									class="selected-item"
+								>
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											Country A
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="select-league-a" class="select-item">
+									<div class="select-btn">
+										League A
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="league"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											Premier League
+										</div>
+									</div>
+								</div>
+								<div
+									id="selected-league-a"
+									class="selected-item"
+								>
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											League A
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="select-team-a" class="select-item">
+									<div class="select-btn">
+										Team A
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="team"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											Man City
+										</div>
+									</div>
+								</div>
+								<div id="selected-team-a" class="selected-item">
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											Team A
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="leagues select-btn">
-								<div class="league-select select">
-									League
-									<i class="fa-solid fa-angle-down"></i>
-								</div>
-								<div class="league-list list hide">
-									<div class="league" id="1" code="en">
-										<img src="/src/images/logo.png" />
-										England
+							<div class="sideB side">
+								<div id="select-country-b" class="select-item">
+									<div class="select-btn">
+										Country B
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="country"
+											side="b"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											England
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="selected-country-league">
-							<div class="country">
-								<div class="info">
-									<img
-										src="/src/images/unknown_country.svg"
-									/>
-									England
-									<div class="favourite">
-										<i class="fa-regular fa-heart"></i>
-										<!-- <i class="fa-solid fa-heart"></i> -->
+								<div
+									id="selected-country-b"
+									class="selected-item"
+								>
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											Country B
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="league">
-								<div class="info">
-									<img
-										src="/src/images/unknown_country.svg"
-									/>
-									Premier League
-									<div class="favourite">
-										<!-- <i class="fa-regular fa-heart"></i> -->
-										<i class="fa-solid fa-heart"></i>
+								<div id="select-league-b" class="select-item">
+									<div class="select-btn">
+										League B
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="league"
+											side="b"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											Premier League
+										</div>
+									</div>
+								</div>
+								<div
+									id="selected-league-b"
+									class="selected-item"
+								>
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											League B
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="select-team-b" class="select-item">
+									<div class="select-btn">
+										Team B
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div class="list">
+										<div
+											class="item"
+											type="team"
+											side="b"
+											id="1"
+											code="en"
+										>
+											<img src="/src/images/logo.png" />
+											Team B
+										</div>
+									</div>
+								</div>
+								<div id="selected-team-b" class="selected-item">
+									<div class="item">
+										<div class="info">
+											<div class="flag"></div>
+											Team B
+											<div class="favourite">
+												<i
+													class="fa-regular fa-heart"
+												></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
