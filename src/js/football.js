@@ -6,100 +6,125 @@ const TEAM = "team";
 const SEASON = new Date().getFullYear();
 
 // CREATE AND SELECT ALL ELEMENTS
-function ElementCreator(name, side, value, isHidden) {
-	/* select html element */
-	this.El = document.querySelector(`#${name}-${side}`);
-	this.flagEl = document.querySelector(`#${name}-${side} .flag`);
-	this.nameEl = document.querySelector(`#${name}-${side} .name`);
-	this.selectEl = document.querySelector(`#${name}-${side} .select`);
-
-	/* element properties */
-	this.name = name;
+function SideElementSelector(side) {
 	this.side = side;
-	this.oldValue = value;
-	this.value = value;
-	this.isHidden = isHidden;
-
-	/* element methods */
-	resetValue = function () {
-		this.value = this.oldValue;
+	this.parentEl = document.querySelector(`#side-${side}`);
+	this.countryEl = {
+		self: document.querySelector(`#select-country-${side}`),
+		selectBtn: document.querySelector(`#select-country-${side} .select-btn`),
+		list: document.querySelector(`#select-country-${side} .list`),
+		selected: document.querySelector(`#selected-country-${side}`),
+		code: "",
+		hidden: {
+			el: false,
+			list: true,
+		},
+	};
+	this.leagueEl = {
+		self: document.querySelector(`#select-league-${side}`),
+		selectBtn: document.querySelector(`#select-league-${side} .select-btn`),
+		list: document.querySelector(`#select-league-${side} .list`),
+		selected: document.querySelector(`#selected-league-${side}`),
+		code: "",
+		hidden: {
+			el: true,
+			list: true,
+		},
+	};
+	this.teamEl = {
+		self: document.querySelector(`#select-team-${side}`),
+		selectBtn: document.querySelector(`#select-team-${side} .select-btn`),
+		list: document.querySelector(`#select-team-${side} .list`),
+		selected: document.querySelector(`#selected-team-${side}`),
+		code: "",
+		hidden: {
+			el: true,
+			list: true,
+		},
 	};
 }
-const countryA = new ElementCreator(COUNTRY, "a", "Country A", false);
-const countryB = new ElementCreator(COUNTRY, "b", "Country B", false);
-const leagueA = new ElementCreator(LEAGUE, "a", "League A", true);
-const leagueB = new ElementCreator(LEAGUE, "b", "League B", true);
-const teamsA = new ElementCreator(TEAMS, "a", "Team A", true);
-const teamsB = new ElementCreator(TEAMS, "b", "Team B", true);
-const teamA = new ElementCreator(TEAM, "a", "Team A", true);
-const teamB = new ElementCreator(TEAM, "b", "Team B", true);
+const sideA = new SideElementSelector("a");
+const sideB = new SideElementSelector("b");
 
 // all elements
 const elements = [
-	countryA,
-	countryB,
-	leagueA,
-	leagueB,
-	teamsA,
-	teamsB,
-	teamA,
-	teamB,
+	sideA.countryEl,
+	sideA.leagueEl,
+	sideA.teamEl,
+	sideB.countryEl,
+	sideB.leagueEl,
+	sideB.teamEl,
 ];
 
 // show/hide elements
-function showHideElements() {
-	elements.forEach((element) => {
-		if (!element.isHidden) element.El.classList.remove("hide");
-		else element.El.classList.add("hide");
+function updateElementsVisibility() {
+	elements.forEach((el) => {
+		if (el.hidden.el) el.self.classList.add("hide");
+		else el.self.classList.remove("hide");
+
+		if (el.hidden.list) el.list.classList.add("hide");
+		if (!el.hidden.el && !el.hidden.list) el.list.classList.remove("hide");
 	});
 }
-showHideElements();
+updateElementsVisibility();
+
+// add event listener to select btns
+elements.forEach((el) => {
+	el.selectBtn.addEventListener("click", () => {
+		updateListVisibility(el);
+	});
+});
+// show list
+function updateListVisibility(el) {
+	elements.forEach((element) => {
+		if (element != el) element.hidden.list = true;
+	});
+	el.hidden.list = !el.hidden.list;
+	updateElementsVisibility();
+}
 
 // render select menu
 function renderCountries(countries) {
-	options = countries.map((country) => {
-		return `<option value="${country.code}">${country.name}
-				</otpion>`;
+	options = countries.map((country, index) => {
+		if (country.code)
+			return `<div class="item" data-type="country" id="${index}" data-code="${country.code}">
+					<img src="${country.flag}" />
+					${country.name}
+				</div>`;
 	});
 
-	countryA.selectEl.innerHTML = `<select name="country-a">
-						<option value="">Select a country</option>
-						${options.join("")}
-					</select>
-	`;
-	countryB.selectEl.innerHTML = `<select name="country-b">
-						<option value="">Select a country</option>
-						${options.join("")}
-					</select>
-	`;
+	sideA.countryEl.list.innerHTML = options.join("");
+	sideB.countryEl.list.innerHTML = options.join("");
 
-	const selectA = countryA.selectEl.querySelector("select");
-	const selectB = countryB.selectEl.querySelector("select");
-
-	selectA.addEventListener("change", (evt) =>
-		selectCountry(evt, countryA, countries)
-	);
-	selectB.addEventListener("change", (evt) => {
-		selectCountry(evt, countryB, countries);
+	sideA.countryEl.list.addEventListener("click", (evt) => {
+		selectCountry(evt, sideA, countries);
+	});
+	sideB.countryEl.list.addEventListener("click", (evt) => {
+		selectCountry(evt, sideB, countries);
 	});
 }
 
-function selectCountry(evt, countryEl, countries) {
-	const countryCode = evt.target.value;
-	let countryObj;
+function selectCountry(evt, side, countries) {
+	/* hide list */
+	side.countryEl.hidden.list = true;
+	updateElementsVisibility();
 
-	if (!countryCode) {
-		countryObj = {
-			flag: "./src/images/unknown_country.svg",
-			code: "",
-			name: `Country ${countryEl.side.toUpperCase()}`,
-		};
-	} else {
-		countryObj = countries.find((country) => country.code == countryCode);
-	}
+	/* get country obj */
+	const countryId = evt.target.id;
+	let countryObj = countries[countryId];
 
-	countryEl.flagEl.style.backgroundImage = `url(${countryObj.flag})`;
-	countryEl.nameEl.innerHTML = countryObj.name;
+	side.countryEl.selected.innerHTML = `
+				<div class="item">
+					<div class="info">
+						<div class="flag" style="background-image:url(${countryObj.flag})"></div>
+						${countryObj.name}
+						<div class="favourite">
+							<i class="fa-regular fa-heart"></i>
+							<!-- <i class="fa-solid fa-heart"></i> -->
+						</div>
+					</div>
+				</div>
+	`;
 
 	if (countryCode) renderLeagues(countryEl, countryObj);
 	else {
@@ -119,9 +144,7 @@ async function renderLeagues(countryEl, countryObj) {
 				</otpion>`;
 	});
 
-	const leagueEl = elements.find(
-		(el) => el.side == countryEl.side && el.name == LEAGUE
-	);
+	const leagueEl = elements.find((el) => el.side == countryEl.side && el.name == LEAGUE);
 
 	leagueEl.selectEl.innerHTML = `<select name="league-a">
 						<option value="">Select a league</option>
@@ -177,9 +200,7 @@ async function renderTeams(leagueEl, leagueObj) {
 				</otpion>`;
 	});
 
-	const teamsEl = elements.find(
-		(el) => el.side == leagueEl.side && el.name == TEAMS
-	);
+	const teamsEl = elements.find((el) => el.side == leagueEl.side && el.name == TEAMS);
 
 	teamsEl.selectEl.innerHTML = `<select name="league-a">
 						<option value="">Select a league</option>
@@ -226,9 +247,7 @@ async function renderTeam(teamsEl, teamObj, leagueId) {
 
 	const player = topScorer(players);
 
-	const teamEl = elements.find(
-		(el) => el.side == teamsEl.side && el.name == TEAM
-	);
+	const teamEl = elements.find((el) => el.side == teamsEl.side && el.name == TEAM);
 
 	teamEl.El.innerHTML = `
 		<h3>Top Scorer:</h3>

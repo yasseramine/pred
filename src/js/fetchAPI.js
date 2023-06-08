@@ -10,7 +10,7 @@ async function getCountries() {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const response = await fetch("./data/countries.json");
+	const response = await fetch("/data/countries.json");
 	const data = await response.json();
 	return data.response;
 }
@@ -27,7 +27,7 @@ async function getLeagues(countryName) {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const response = await fetch("./data/leagues.json");
+	const response = await fetch("/data/leagues.json");
 	const data = await response.json();
 	return data.response;
 }
@@ -44,7 +44,7 @@ async function getTeams(leagueId) {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const response = await fetch("./data/teams.json");
+	const response = await fetch("/data/teams.json");
 	const data = await response.json();
 	return data.response;
 }
@@ -62,7 +62,7 @@ async function getTeam(leagueId, teamId) {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const local = "./data/team.json";
+	const local = "/data/team.json";
 	const response = await fetch(local);
 	const data = await response.json();
 	return data.response;
@@ -101,7 +101,7 @@ async function getPlayers(leagueId, teamId) {
 		const data = await response.json();
 		players = players.concat(data.response);
 	} */
-	const local = "./data/players.json";
+	const local = "/data/players.json";
 	const response = await fetch(local);
 	const data = await response.json();
 	const players = data;
@@ -122,7 +122,7 @@ async function getStandings(leagueId, teamId) {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const local = "./data/team.json";
+	const local = "/data/team.json";
 	const response = await fetch(endpoint, options);
 	const data = await response.json();
 	console.log(data);
