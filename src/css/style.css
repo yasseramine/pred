@@ -495,8 +495,11 @@ nav ul li a i {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	text-align: center;
 }
 .football .sides .side .select-item .selected-item .item .flag {
+	position: relative;
+
 	width: 100px;
 	height: 100px;
 
@@ -505,17 +508,14 @@ nav ul li a i {
 
 	margin-bottom: 0.5rem;
 
-	background-image: url("/src/images/unknown.svg");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
+	background: url("/src/images/unknown.svg") center/cover no-repeat;
 }
 .football .sides .side .select-item .selected-item .item .flag:hover + .favourite {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 100%;
+	border-radius: 8px;
 }
 .football .sides .side .select-item .selected-item .item .info .favourite {
 	display: none;

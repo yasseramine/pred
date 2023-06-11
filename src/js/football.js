@@ -9,12 +9,16 @@ const SEASON = new Date().getFullYear();
 function SideElementSelector(side) {
 	this.side = side;
 	this.parentEl = document.querySelector(`#side-${side}`);
+	this.value = {
+		country: undefined,
+		league: undefined,
+		team: undefined,
+	};
 	this.countryEl = {
 		self: document.querySelector(`#select-country-${side}`),
 		selectBtn: document.querySelector(`#select-country-${side} .select-btn`),
 		list: document.querySelector(`#select-country-${side} .list`),
 		selected: document.querySelector(`#selected-country-${side}`),
-		code: "",
 		hidden: {
 			el: false,
 			list: true,
@@ -25,7 +29,6 @@ function SideElementSelector(side) {
 		selectBtn: document.querySelector(`#select-league-${side} .select-btn`),
 		list: document.querySelector(`#select-league-${side} .list`),
 		selected: document.querySelector(`#selected-league-${side}`),
-		code: "",
 		hidden: {
 			el: true,
 			list: true,
@@ -36,7 +39,6 @@ function SideElementSelector(side) {
 		selectBtn: document.querySelector(`#select-team-${side} .select-btn`),
 		list: document.querySelector(`#select-team-${side} .list`),
 		selected: document.querySelector(`#selected-team-${side}`),
-		code: "",
 		hidden: {
 			el: true,
 			list: true,
@@ -87,7 +89,7 @@ function updateListVisibility(el) {
 function renderCountries(countries) {
 	options = countries.map((country, index) => {
 		if (country.code)
-			return `<div class="item" data-type="country" id="${index}" data-code="${country.code}">
+			return `<div class="item" data-name="${country.name}" data-type="country" id="${index}" data-code="${country.code}">
 					<img src="${country.flag}" />
 					${country.name}
 				</div>`;
@@ -105,6 +107,9 @@ function renderCountries(countries) {
 }
 
 function selectCountry(evt, side, countries) {
+	// if user didn't select a country
+	if (evt.target.dataset.type != "country") return;
+
 	/* hide list */
 	side.countryEl.hidden.list = true;
 	updateElementsVisibility();
@@ -113,10 +118,11 @@ function selectCountry(evt, side, countries) {
 	const countryId = evt.target.id;
 	let countryObj = countries[countryId];
 
+	const bg = `background:url('${countryObj.flag}') white center/cover no-repeat`;
 	side.countryEl.selected.innerHTML = `
 				<div class="item">
 					<div class="info">
-						<div class="flag" style="background-image:url(${countryObj.flag})"></div>
+						<div class="flag" style="${bg}"></div>
 						${countryObj.name}
 						<div class="favourite">
 							<i class="fa-regular fa-heart"></i>
@@ -126,121 +132,153 @@ function selectCountry(evt, side, countries) {
 				</div>
 	`;
 
-	if (countryCode) renderLeagues(countryEl, countryObj);
-	else {
-		hideEl(countryEl.side, TEAMS);
-		hideEl(countryEl.side, LEAGUE);
-	}
+	// Save country
+	side.value.country = countryObj;
+
+	// reset league
+	resetLeague(side);
+	// hide teams el
+	side.teamEl.hidden.el = true;
+	updateElementsVisibility();
+	// render leagues
+	renderLeagues(side);
 }
 
-async function renderLeagues(countryEl, countryObj) {
-	hideEl(countryEl.side, TEAMS);
+async function renderLeagues(side) {
+	// hide select teams el
+	side.teamEl.hidden.el = true;
+	updateElementsVisibility();
 
-	const leagues = await getLeagues(countryObj.name);
+	// get leagues
+	const leagues = await getLeagues(side.value.country.name);
 
 	/* render leagues */
-	options = leagues.map(({ league }) => {
-		return `<option value="${league.id}">${league.name}
-				</otpion>`;
+	options = leagues.map(({ league, country }) => {
+		return `<div class="item" data-name="${league.name}" data-type="league" id="${league.id}" data-code="${country.code}">
+					<img src="${league.logo}" />
+					${league.name}
+				</div>`;
 	});
 
-	const leagueEl = elements.find((el) => el.side == countryEl.side && el.name == LEAGUE);
-
-	leagueEl.selectEl.innerHTML = `<select name="league-a">
-						<option value="">Select a league</option>
-						${options.join("")}
-					</select>
-	`;
-
-	const select = leagueEl.selectEl.querySelector("select");
-	select.addEventListener("change", (evt) => {
-		selectLeague(evt, leagueEl, leagues);
+	side.leagueEl.list.innerHTML = options.join("");
+	side.leagueEl.list.removeEventListener("click", (evt) => {
+		selectLeague(evt, side, leagues);
 	});
-
-	resetLeague(leagueEl);
+	side.leagueEl.list.addEventListener("click", (evt) => {
+		selectLeague(evt, side, leagues);
+	});
 
 	/* show leagues el */
-	showEl(countryEl.side, LEAGUE);
+	side.leagueEl.hidden.el = false;
+	updateElementsVisibility();
 }
 
-function resetLeague(leagueEl) {
-	leagueEl.flagEl.style.backgroundImage = `url("./src/images/unknown_country.svg")`;
-	leagueEl.nameEl.innerHTML = `League ${leagueEl.side.toUpperCase()}`;
+function resetLeague(side) {
+	side.leagueEl.selected.innerHTML = `<div class="item">
+								<div class="info">
+									<div class="flag" style="background:url('/src/images/unknown.svg')"></div>
+									League ${side.side.toUpperCase()}
+								</div>
+							</div>`;
+	side.value.league = undefined;
 }
 
-function selectLeague(evt, leagueEl, leagues) {
-	const leagueId = evt.target.value;
-	let leagueObj;
+function selectLeague(evt, side, leagues) {
+	// if user didn't select a league
+	if (evt.target.dataset.type != "league") return;
 
-	if (!leagueId) {
-		leagueObj = {
-			logo: "./src/images/unknown_country.svg",
-			code: "",
-			name: `League ${leagueEl.side.toUpperCase()}`,
-		};
-	} else {
-		leagueObj = leagues.find(({ league }) => league.id == leagueId).league;
-	}
+	/* hide list */
+	side.leagueEl.hidden.list = true;
+	updateElementsVisibility();
 
-	leagueEl.flagEl.style.backgroundImage = `url(${leagueObj.logo})`;
-	leagueEl.nameEl.innerHTML = leagueObj.name;
+	const leagueId = evt.target.id;
+	const leagueObj = leagues.find(({ league }) => league.id == leagueId).league;
 
-	if (leagueId) renderTeams(leagueEl, leagueObj);
-	else hideEl(leagueEl.side, TEAMS);
+	const bg = `background:url('${leagueObj.logo}') white center/contain no-repeat`;
+	side.leagueEl.selected.innerHTML = `<div class="item">
+											<div class="info">
+												<div class="flag" style="${bg}"></div>
+												${leagueObj.name}
+												<div class="favourite">
+													<i class="fa-regular fa-heart"></i>
+													<!-- <i class="fa-solid fa-heart"></i> -->
+												</div>
+											</div>
+										</div>`;
+
+	// Save league
+	side.value.league = leagueObj;
+
+	resetTeam(side);
+	renderTeams(side, leagueId);
 }
 
-async function renderTeams(leagueEl, leagueObj) {
-	hideEl(leagueEl.side, TEAMS);
+function resetTeam(side) {
+	side.teamEl.selected.innerHTML = `<div class="item">
+								<div class="info">
+									<div class="flag" style="background:url('/src/images/unknown.svg')"></div>
+									Team ${side.side.toUpperCase()}
+								</div>
+							</div>`;
+	side.value.team = undefined;
+}
 
-	const teams = await getTeams(leagueObj.id);
+async function renderTeams(side, leagueId) {
+	// get teams by league id
+	const teams = await getTeams(leagueId);
 
 	/* render leagues */
 	options = teams.map(({ team }) => {
-		return `<option value="${team.id}">${team.name}
-				</otpion>`;
+		return `<div class="item" data-name="${team.name}" data-type="team" id="${team.id}" data-code="${team.code}">
+					<img src="${team.logo}" />
+					${team.name}
+				</div>`;
+	});
+	side.teamEl.list.innerHTML = options.join("");
+
+	side.teamEl.list.removeEventListener("click", (evt) => {
+		selectTeam(evt, side, teams, leagueId);
+	});
+	side.teamEl.list.addEventListener("click", (evt) => {
+		selectTeam(evt, side, teams, leagueId);
 	});
 
-	const teamsEl = elements.find((el) => el.side == leagueEl.side && el.name == TEAMS);
-
-	teamsEl.selectEl.innerHTML = `<select name="league-a">
-						<option value="">Select a league</option>
-						${options.join("")}
-					</select>
-	`;
-
-	const select = teamsEl.selectEl.querySelector("select");
-	select.addEventListener("change", (evt) => {
-		selectTeam(evt, teamsEl, teams, leagueObj.id);
-	});
-
-	resetTeams(teamsEl);
-
-	/* show leagues el */
-	showEl(leagueEl.side, TEAMS);
+	/* show teams el */
+	side.teamEl.hidden.el = false;
+	updateElementsVisibility();
 }
 
-function selectTeam(evt, teamsEl, teams, leagueId) {
-	const teamId = evt.target.value;
-	let teamObj;
+function selectTeam(evt, side, teams, leagueId) {
+	// if user didn't select a team
+	if (evt.target.dataset.type != "team") return;
 
-	if (!teamId) {
-		teamObj = {
-			logo: "./src/images/unknown_country.svg",
-			code: "",
-			name: `League ${teamsEl.side.toUpperCase()}`,
-		};
-	} else {
-		teamObj = teams.find(({ team }) => team.id == teamId).team;
-	}
+	/* hide list */
+	side.teamEl.hidden.list = true;
+	updateElementsVisibility();
 
-	teamsEl.flagEl.style.backgroundImage = `url(${teamObj.logo})`;
-	teamsEl.nameEl.innerHTML = teamObj.name;
+	// get selected team id
+	const teamId = evt.target.id;
+	const teamObj = teams.find(({ team }) => team.id == teamId).team;
 
-	if (teamId) renderTeam(teamsEl, teamObj, leagueId);
-	else hideEl(teamsEl.side, TEAM);
+	const bg = `background:url('${teamObj.logo}') white center/contain no-repeat`;
+	side.teamEl.selected.innerHTML = `<div class="item">
+										<div class="info">
+											<div class="flag" style="${bg}"></div>
+											${teamObj.name}
+											<div class="favourite">
+												<i class="fa-regular fa-heart"></i>
+												<!-- <i class="fa-solid fa-heart"></i> -->
+											</div>
+										</div>
+									</div>`;
+
+	// save selected team
+	side.value.team = teamObj;
+
+	updatePrediction();
 }
 
-async function renderTeam(teamsEl, teamObj, leagueId) {
+async function updatePrediction() {
 	const team = await getTeam(leagueId, teamObj.id);
 	const players = await getPlayers(leagueId, teamObj.id);
 	const standings = await getStandings(leagueId, teamObj.id);
@@ -273,22 +311,6 @@ function topScorer(players) {
 		name: top[0].player.firstname + " " + top[0].player.lastname,
 		goals: top[0].statistics[0].goals.total,
 	};
-}
-
-function resetTeams(teamsEl) {
-	teamsEl.flagEl.style.backgroundImage = `url("./src/images/unknown_country.svg")`;
-	teamsEl.nameEl.innerHTML = `League ${teamsEl.side.toUpperCase()}`;
-}
-
-function hideEl(side, name) {
-	const element = elements.find((el) => el.side == side && el.name == name);
-	element.isHidden = true;
-	showHideElements();
-}
-function showEl(side, name) {
-	const element = elements.find((el) => el.side == side && el.name == name);
-	element.isHidden = false;
-	showHideElements();
 }
 
 /* init app */
