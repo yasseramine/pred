@@ -343,47 +343,18 @@ async function updatePrediction() {
 	// render vs element
 	prediction.self.innerHTML = renderVS(sideA.value.team, sideB.value.team);
 
-	console.log(teamA_Standings);
 	// render report
 	const teamAObj = {
 		name: sideA.value.team.name,
-		topScorer: {
-			...teamA_TopScorer,
-			photo: `background:url('${teamA_TopScorer.photo}') center/cover no-repeat`,
-		},
+		topScorer: teamA_TopScorer,
 		rank: teamA_Standings.rank,
 	};
 	const teamBObj = {
 		name: sideB.value.team.name,
-		topScorer: {
-			...teamB_TopScorer,
-			photo: `background:url('${teamB_TopScorer.photo}') center/cover no-repeat`,
-		},
+		topScorer: teamB_TopScorer,
 		rank: teamB_Standings.rank,
 	};
-	prediction.self.innerHTML += renderREPORT(teamAObj, teamBObj);
-
-	return;
-	const team = await getTeam(leagueId, teamObj.id);
-	const players = await getPlayers(leagueId, teamObj.id);
-	const standings = await getStandings(leagueId, teamObj.id);
-
-	const player = topScorer(players);
-
-	const teamEl = elements.find((el) => el.side == teamsEl.side && el.name == TEAM);
-
-	teamEl.El.innerHTML = `
-		<h3>Top Scorer:</h3>
-		<div class="player">
-			<img src="${player.photo}" alt="${player.name}"/>
-			<div class="info">
-				<p>${player.name}</p>
-				<p>${player.goals} Goals</p>
-			</div>
-		</div>
-	`;
-
-	showEl(teamEl.side, TEAM);
+	prediction.self.innerHTML += renderReport(teamAObj, teamBObj);
 }
 function renderVS(teamA, teamB) {
 	teamA_logo = teamA.logo ? teamA.logo : "/src/images/unknown.svg";
@@ -408,7 +379,10 @@ function renderVS(teamA, teamB) {
 			</div>
 	`;
 }
-function renderREPORT(teamA, teamB) {
+function renderReport(teamA, teamB) {
+	teamA_TopScorer_Photo = `background:url('${teamA.topScorer.photo}') center/cover no-repeat`;
+	teamB_TopScorer_Photo = `background:url('${teamB.topScorer.photo}') center/cover no-repeat`;
+
 	return `<div class="report">
 				<div class="report-header">REPORT</div>
 				<div class="teams">
@@ -426,13 +400,13 @@ function renderREPORT(teamA, teamB) {
 					<div class="data">
 						<div class="row">
 							<div class="col player">
-								<div class="photo" style="${teamB.topScorer.photo}"></div>
+								<div class="photo" style="${teamA_TopScorer_Photo}"></div>
 								<div class="name">${teamA.topScorer.name}</div>
 								${teamA.topScorer.goals} Goals
 							</div>
 							<div class="metric">TOP Scorer</div>
 							<div class="col player">
-								<div class="photo" style="${teamB.topScorer.photo}"></div>
+								<div class="photo" style="${teamB_TopScorer_Photo}"></div>
 								<div class="name">${teamB.topScorer.name}</div>
 								${teamA.topScorer.goals} Goals
 							</div>
@@ -444,6 +418,12 @@ function renderREPORT(teamA, teamB) {
 						</div>
 					</div>
 				</div>
+			</div>`;
+}
+function renderChart() {
+	return `<div class="chart">
+				<div class="chart-header">WHO IS BETTER?</div>
+				<div class="chart-container"></div>
 			</div>`;
 }
 function topScorer(players) {
