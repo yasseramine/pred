@@ -262,3 +262,9 @@
 
 	margin-bottom: 0.25rem;
 }
+.football .prediction .chart {
+	padding: 0.5rem 2rem;
+}
+.football .prediction .chart .chart-container {
+	margin-top: 1rem;
+}

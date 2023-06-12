@@ -348,13 +348,39 @@ async function updatePrediction() {
 		name: sideA.value.team.name,
 		topScorer: teamA_TopScorer,
 		rank: teamA_Standings.rank,
+		wins: teamA.fixtures.wins.total,
+		draws: teamA.fixtures.draws.total,
+		loses: teamA.fixtures.loses.total,
+		goals: {
+			for: teamA.goals.for.total.total,
+			against: teamA.goals.against.total.total,
+		},
+		color: "#a059e2",
 	};
 	const teamBObj = {
 		name: sideB.value.team.name,
 		topScorer: teamB_TopScorer,
 		rank: teamB_Standings.rank,
+		wins: teamB.fixtures.wins.total,
+		draws: teamB.fixtures.draws.total,
+		loses: teamB.fixtures.loses.total,
+		goals: {
+			for: teamB.goals.for.total.total,
+			against: teamB.goals.against.total.total,
+		},
+		color: "#43b3e7",
 	};
 	prediction.self.innerHTML += renderReport(teamAObj, teamBObj);
+
+	// render chart
+	prediction.self.innerHTML += `<div class="chart">
+									<div class="chart-header">WHO IS BETTER?</div>
+									<div class="chart-container">
+										<canvas id="football-chart"></canvas>
+									</div>
+								</div>`;
+	const ctx = document.getElementById("football-chart");
+	renderChart(ctx, teamAObj, teamBObj);
 }
 function renderVS(teamA, teamB) {
 	teamA_logo = teamA.logo ? teamA.logo : "/src/images/unknown.svg";
@@ -420,11 +446,43 @@ function renderReport(teamA, teamB) {
 				</div>
 			</div>`;
 }
-function renderChart() {
-	return `<div class="chart">
-				<div class="chart-header">WHO IS BETTER?</div>
-				<div class="chart-container"></div>
-			</div>`;
+function renderChart(ctx, teamA, teamB) {
+	const labels = ["Wins", "Loses", "Draws", "Goals for", "Goals aginst"];
+
+	console.log(teamA, teamB);
+	const data = {
+		labels: labels,
+		datasets: [
+			{
+				label: teamA.name,
+				data: [teamA.wins, teamA.loses, teamA.draws, teamA.goals.for, teamA.goals.against],
+				borderColor: teamA.color,
+				backgroundColor: `rgba(${teamA.color}, 0.5)`,
+				borderWidth: 2,
+				borderRadius: Number.MAX_VALUE,
+				borderSkipped: false,
+			},
+			{
+				label: teamB.name,
+				data: [teamB.wins, teamB.loses, teamB.draws, teamB.goals.for, teamB.goals.against],
+				borderColor: teamB.color,
+				backgroundColor: `rgba(${teamB.color}, 0.5)`,
+				borderWidth: 2,
+				borderRadius: Number.MAX_VALUE,
+				borderSkipped: false,
+			},
+		],
+	};
+
+	const config = {
+		type: "bar",
+		data: data,
+		options: {
+			responsive: true,
+		},
+	};
+
+	new Chart(ctx, config);
 }
 function topScorer(players) {
 	const top = players.sort((a, b) => {
