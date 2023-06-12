@@ -1,0 +1,75 @@
+{
+	"get": "standings",
+	"parameters": {
+		"league": "39",
+		"season": "2022",
+		"team": "34"
+	},
+	"errors": [],
+	"results": 1,
+	"paging": {
+		"current": 1,
+		"total": 1
+	},
+	"response": [
+		{
+			"league": {
+				"id": 39,
+				"name": "Premier League",
+				"country": "England",
+				"logo": "https://media-3.api-sports.io/football/leagues/39.png",
+				"flag": "https://media-2.api-sports.io/flags/gb.svg",
+				"season": 2022,
+				"standings": [
+					[
+						{
+							"rank": 4,
+							"team": {
+								"id": 34,
+								"name": "Newcastle",
+								"logo": "https://media-1.api-sports.io/football/teams/34.png"
+							},
+							"points": 71,
+							"goalsDiff": 35,
+							"group": "Premier League",
+							"form": "DDWDL",
+							"status": "same",
+							"description": "Promotion - Champions League (Group Stage: )",
+							"all": {
+								"played": 38,
+								"win": 19,
+								"draw": 14,
+								"lose": 5,
+								"goals": {
+									"for": 68,
+									"against": 33
+								}
+							},
+							"home": {
+								"played": 19,
+								"win": 11,
+								"draw": 6,
+								"lose": 2,
+								"goals": {
+									"for": 36,
+									"against": 14
+								}
+							},
+							"away": {
+								"played": 19,
+								"win": 8,
+								"draw": 8,
+								"lose": 3,
+								"goals": {
+									"for": 32,
+									"against": 19
+								}
+							},
+							"update": "2023-05-28T00:00:00+00:00"
+						}
+					]
+				]
+			}
+		}
+	]
+}

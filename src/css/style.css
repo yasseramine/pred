@@ -17,6 +17,8 @@
 	--dark-theme-secondary-hover-color: #ad3f50;
 	--dark-theme-bg-pri-color: #c6132d;
 	--dark-theme-bg-sec-color: #313131;
+	--dark-theme-team-a-color: #a059e2;
+	--dark-theme-team-b-color: #43b3e7;
 }
 
 /********* GENERAL *********/
@@ -401,147 +403,6 @@ nav ul li a i {
 	background-color: var(--dark-theme-bg-pri-color);
 }
 
-/****** FOOTBALL PAGE *******/
-.football .header {
-	padding: 1rem 1rem 0 1rem;
-	font-size: 1.2rem;
-
-	display: flex;
-	justify-content: center;
-}
-.football .sides {
-	display: flex;
-	justify-content: space-between;
-	padding: 1rem;
-}
-.football .sides .side {
-	width: 100%;
-}
-.football .sides .side .select-item {
-	width: 100%;
-	padding: 0.25rem;
-	margin-top: 1rem;
-
-	display: flex !important;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-
-	position: relative;
-}
-.football .sides .side .select-item .select-btn {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	width: 150px;
-	height: 2.5rem;
-	padding: 0.5rem;
-	border-radius: 10px;
-	background-color: var(--dark-theme-bg-sec-color);
-
-	cursor: pointer;
-}
-.football .sides .side .select-item .select-btn:hover {
-	background-color: var(--dark-theme-bg-pri-color);
-}
-.football .sides .side .select-item .list {
-	position: absolute;
-	background-color: var(--dark-theme-secondary-text-color);
-	color: var(--dark-mode-color);
-
-	border-radius: 8px;
-	width: 280px;
-	max-height: 400px;
-
-	top: 3rem;
-	left: 50%;
-	transform: translateX(-50%);
-
-	overflow-x: hidden;
-	overflow-y: auto;
-	z-index: 999;
-}
-.football .sides .side .select-item .list .item {
-	display: flex;
-	align-items: center;
-
-	margin: 0.5rem;
-	padding: 0.5rem;
-
-	border-radius: 8px;
-
-	cursor: pointer;
-}
-.football .sides .side .select-item .list .item:hover {
-	background-color: var(--dark-theme-bg-pri-color);
-	color: var(--dark-theme-primary-text-color);
-}
-.football .sides .side .select-item .list .item img {
-	width: 20px;
-	height: 20px;
-
-	margin-right: 0.5rem;
-}
-.football .sides .side .select-item .selected-item {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.football .sides .side .select-item .selected-item .item {
-	margin: 0.5rem 2rem;
-	position: relative;
-}
-.football .sides .side .select-item .selected-item .item .info {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
-.football .sides .side .select-item .selected-item .item .flag {
-	position: relative;
-
-	width: 100px;
-	height: 100px;
-
-	border-radius: 8px;
-	overflow: hidden;
-
-	margin-bottom: 0.5rem;
-
-	background: url("/src/images/unknown.svg") center/cover no-repeat;
-}
-.football .sides .side .select-item .selected-item .item .flag:hover + .favourite {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 8px;
-}
-.football .sides .side .select-item .selected-item .item .info .favourite {
-	display: none;
-
-	width: 120px;
-	height: 120px;
-
-	background-color: rgba(0, 0, 0, 0.2);
-
-	position: absolute;
-
-	top: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 99;
-
-	border-radius: 8px;
-
-	color: var(--dark-theme-bg-pri-color);
-	cursor: pointer;
-}
-.football .sides .side .select-item .selected-item .item .info .favourite:hover {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 /* HIDE */
 .hide {
 	display: none !important;
@@ -550,4 +411,43 @@ nav ul li a i {
 .hide * {
 	display: none !important;
 	visibility: hidden !important;
+}
+
+/* CSS LOADER */
+.lds-ring {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+
+	height: 80px;
+}
+.lds-ring div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 34px;
+	height: 34px;
+	margin: 8px;
+	border: 4px solid #fff;
+	border-radius: 50%;
+	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+	animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+	animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+	animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

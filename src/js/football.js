@@ -47,6 +47,12 @@ function SideElementSelector(side) {
 }
 const sideA = new SideElementSelector("a");
 const sideB = new SideElementSelector("b");
+const prediction = {
+	self: document.getElementById("#prediction"),
+	vsEl: document.getElementById("#prediction").querySelector(".vs"),
+	reportEl: document.getElementById("#prediction").querySelector(".report"),
+	chartEl: document.getElementById("#prediction").querySelector(".chart"),
+};
 
 // all elements
 const elements = [
@@ -252,7 +258,6 @@ async function renderTeams(side, leagueId) {
 
 	// remove team from the other list
 	// the user can't select the same team twice
-	console.log("render teams");
 	removeTeamFromList();
 
 	/* show teams el */
@@ -313,6 +318,52 @@ function removeTeamFromList() {
 }
 
 async function updatePrediction() {
+	if (!sideA.value.team || !sideB.value.team) return;
+
+	// show prediction el
+	prediction.self.classList.remove("hide");
+	prediction.self.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+
+	const leagueA_Id = sideA.value.league.id,
+		teamA_Id = sideA.value.team.id;
+	const leagueB_Id = sideB.value.league.id,
+		teamB_Id = sideB.value.team.id;
+
+	const teamA = await getTeam(leagueA_Id, teamA_Id);
+	const teamA_Players = await getPlayers(leagueA_Id, teamA_Id);
+	const teamA_Standings = await getStandings(leagueA_Id, teamA_Id);
+
+	const teamB = await getTeam(leagueB_Id, teamB_Id);
+	const teamB_Players = await getPlayers(leagueB_Id, teamB_Id);
+	const teamB_Standings = await getStandings(leagueB_Id, teamB_Id);
+
+	const teamA_TopScorer = topScorer(teamA_Players);
+	const teamB_TopScorer = topScorer(teamB_Players);
+
+	// render vs element
+	prediction.self.innerHTML = renderVS(sideA.value.team, sideB.value.team);
+
+	console.log(teamA_Standings);
+	// render report
+	const teamAObj = {
+		name: sideA.value.team.name,
+		topScorer: {
+			...teamA_TopScorer,
+			photo: `background:url('${teamA_TopScorer.photo}') center/cover no-repeat`,
+		},
+		rank: teamA_Standings.rank,
+	};
+	const teamBObj = {
+		name: sideB.value.team.name,
+		topScorer: {
+			...teamB_TopScorer,
+			photo: `background:url('${teamB_TopScorer.photo}') center/cover no-repeat`,
+		},
+		rank: teamB_Standings.rank,
+	};
+	prediction.self.innerHTML += renderREPORT(teamAObj, teamBObj);
+
+	return;
 	const team = await getTeam(leagueId, teamObj.id);
 	const players = await getPlayers(leagueId, teamObj.id);
 	const standings = await getStandings(leagueId, teamObj.id);
@@ -334,7 +385,67 @@ async function updatePrediction() {
 
 	showEl(teamEl.side, TEAM);
 }
+function renderVS(teamA, teamB) {
+	teamA_logo = teamA.logo ? teamA.logo : "/src/images/unknown.svg";
+	teamB_logo = teamB.logo ? teamB.logo : "/src/images/unknown.svg";
 
+	return `<div class="vs">
+				<div class="team team-a">
+					<div class="logo">
+						<img src="${teamA_logo}" />
+					</div>
+					${teamA.name}
+					<div class="color"></div>
+				</div>
+				<span>VS.</span>
+				<div class="team team-b">
+					<div class="logo">
+						<img src="${teamB_logo}" />
+					</div>
+					${teamB.name}
+					<div class="color"></div>
+				</div>
+			</div>
+	`;
+}
+function renderREPORT(teamA, teamB) {
+	return `<div class="report">
+				<div class="report-header">REPORT</div>
+				<div class="teams">
+					<div class="team team-a">
+						<div class="color"></div>
+						${teamA.name}
+					</div>
+					<div class="team team-b">
+						${teamB.name}
+						<div class="color"></div>
+					</div>
+				</div>
+				<div class="metrics">
+					<div class="metrics-header">Metric</div>
+					<div class="data">
+						<div class="row">
+							<div class="col player">
+								<div class="photo" style="${teamB.topScorer.photo}"></div>
+								<div class="name">${teamA.topScorer.name}</div>
+								${teamA.topScorer.goals} Goals
+							</div>
+							<div class="metric">TOP Scorer</div>
+							<div class="col player">
+								<div class="photo" style="${teamB.topScorer.photo}"></div>
+								<div class="name">${teamB.topScorer.name}</div>
+								${teamA.topScorer.goals} Goals
+							</div>
+						</div>
+						<div class="row">
+							<div class="col rank">#${teamA.rank}</div>
+							<div class="metric">Rank</div>
+							<div class="col rank">#${teamB.rank}</div>
+						</div>
+					</div>
+				</div>
+			</div>`;
+}
 function topScorer(players) {
 	const top = players.sort((a, b) => {
 		return b.statistics[0].goals.total - a.statistics[0].goals.total;

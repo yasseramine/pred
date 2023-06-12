@@ -122,9 +122,9 @@ async function getStandings(leagueId, teamId) {
 			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 		},
 	};
-	const local = "/data/team.json";
-	const response = await fetch(endpoint, options);
+	const local = "/data/standings.json";
+	const response = await fetch(local);
 	const data = await response.json();
-	console.log(data);
-	return data.response;
+
+	return data.response[0].league.standings[0][0];
 }
