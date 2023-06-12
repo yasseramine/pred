@@ -168,6 +168,10 @@ async function renderLeagues(side) {
 		selectLeague(evt, side, leagues);
 	});
 
+	// unselect league and team
+	side.value.league = undefined;
+	side.value.team = undefined;
+
 	/* show leagues el */
 	side.leagueEl.hidden.el = false;
 	updateElementsVisibility();
@@ -243,6 +247,14 @@ async function renderTeams(side, leagueId) {
 		selectTeam(evt, side, teams, leagueId);
 	});
 
+	// unselect team
+	side.value.team = undefined;
+
+	// remove team from the other list
+	// the user can't select the same team twice
+	console.log("render teams");
+	removeTeamFromList();
+
 	/* show teams el */
 	side.teamEl.hidden.el = false;
 	updateElementsVisibility();
@@ -275,7 +287,29 @@ function selectTeam(evt, side, teams, leagueId) {
 	// save selected team
 	side.value.team = teamObj;
 
+	// remove team from the other list
+	// the user can't select the same team twice
+	removeTeamFromList();
+
 	updatePrediction();
+}
+
+function removeTeamFromList() {
+	sideB.teamEl.list.childNodes.forEach((node) => {
+		if (node.id == sideA.value.team?.id && node.dataset.code == sideA.value.team?.code) {
+			node.classList.add("hide");
+		} else {
+			node.classList.remove("hide");
+		}
+	});
+
+	sideA.teamEl.list.childNodes.forEach((node) => {
+		if (node.id == sideB.value.team?.id && node.dataset.code == sideB.value.team?.code) {
+			node.classList.add("hide");
+		} else {
+			node.classList.remove("hide");
+		}
+	});
 }
 
 async function updatePrediction() {
