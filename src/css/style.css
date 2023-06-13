@@ -63,10 +63,6 @@ header .menu {
 	display: none;
 	height: 1.4rem;
 	width: 1.75rem;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 header .menu #nav-icon {
 	width: 100%;
@@ -585,14 +581,14 @@ nav ul li a i {
 		position: relative;
 	}
 	header nav {
-		width: 300px;
+		width: 80%;
 		height: auto;
 
 		display: block;
 		position: absolute;
 
 		top: var(--header-height);
-		left: -300px;
+		left: -80%;
 
 		background-color: var(--dark-theme-bg-sec-color);
 		border: 1px solid var(--dark-mode-color);
@@ -600,7 +596,7 @@ nav ul li a i {
 
 		z-index: 2;
 
-		transition: left 200ms ease-in-out;
+		transition: left 300ms ease-in-out;
 	}
 	header nav.open {
 		left: 0;
