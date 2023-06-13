@@ -51,16 +51,82 @@ header {
 
 	background-color: var(--navbar-bg-color);
 }
-header .menu {
-	display: none;
-}
 header a:visited {
 	text-decoration: none;
 }
-header .right-side {
-	display: flex;
-	align-items: center;
+
+/* menu btn */
+header .menu {
+	display: none;
+	height: 2rem;
 }
+header .menu #nav-icon {
+	width: 2rem;
+	height: 100%;
+	position: relative;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: 0.5s ease-in-out;
+	-moz-transition: 0.5s ease-in-out;
+	-o-transition: 0.5s ease-in-out;
+	transition: 0.5s ease-in-out;
+	cursor: pointer;
+}
+
+header .menu #nav-icon span {
+	display: block;
+	position: absolute;
+	height: 0.4rem;
+	width: 100%;
+	background: var(--dark-theme-primary-text-color);
+	border-radius: 0.4rem;
+	opacity: 1;
+	left: 0;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: 0.25s ease-in-out;
+	-moz-transition: 0.25s ease-in-out;
+	-o-transition: 0.25s ease-in-out;
+	transition: 0.25s ease-in-out;
+}
+
+header .menu #nav-icon span:nth-child(1) {
+	top: 0px;
+}
+
+header .menu #nav-icon span:nth-child(2) {
+	top: 0.8rem;
+}
+
+header .menu #nav-icon span:nth-child(3) {
+	top: 1.6rem;
+}
+
+header .menu #nav-icon.open span:nth-child(1) {
+	top: 1rem;
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);
+	transform: rotate(135deg);
+}
+
+header .menu #nav-icon.open span:nth-child(2) {
+	opacity: 0;
+	left: -3rem;
+}
+
+header .menu #nav-icon.open span:nth-child(3) {
+	top: 1rem;
+	-webkit-transform: rotate(-135deg);
+	-moz-transform: rotate(-135deg);
+	-o-transform: rotate(-135deg);
+	transform: rotate(-135deg);
+}
+
 /* LOGO */
 .logo {
 	display: flex;
@@ -477,9 +543,6 @@ nav ul li a i {
 		justify-content: space-between;
 		padding: 0 2rem;
 	}
-	header nav {
-		display: none;
-	}
 	header a .logo img {
 		width: 2rem;
 		height: 2rem;
@@ -507,6 +570,51 @@ nav ul li a i {
 			"m m m m m m m m m m m m"
 			"l l l l l l l l l l l l"
 			"r r r r r r r r r r r r";
+	}
+
+	/* nav */
+	header {
+		position: relative;
+	}
+	header nav {
+		width: 200px;
+		height: auto;
+
+		display: block;
+		position: absolute;
+
+		top: var(--header-height);
+		left: -200px;
+
+		background-color: var(--dark-theme-bg-sec-color);
+		border: 1px solid var(--dark-mode-color);
+		border-radius: 0.25rem;
+
+		z-index: 2;
+
+		transition: left 200ms ease-in-out;
+	}
+	header nav.open {
+		left: 0;
+	}
+	header nav ul {
+		width: 100%;
+		flex-direction: column;
+	}
+	nav ul li {
+		width: 100%;
+		margin: 0;
+	}
+	nav ul li a {
+		height: auto;
+		padding: 0.5rem;
+		margin: 0.5rem;
+
+		justify-content: start;
+	}
+	nav ul li a.active {
+		border-bottom: none;
+		border-right: var(--nav-link-border-width) solid var(--navbar-text-color);
 	}
 }
 
