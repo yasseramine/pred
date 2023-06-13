@@ -585,14 +585,14 @@ nav ul li a i {
 		position: relative;
 	}
 	header nav {
-		width: 200px;
+		width: 300px;
 		height: auto;
 
 		display: block;
 		position: absolute;
 
 		top: var(--header-height);
-		left: -200px;
+		left: -300px;
 
 		background-color: var(--dark-theme-bg-sec-color);
 		border: 1px solid var(--dark-mode-color);
@@ -615,10 +615,16 @@ nav ul li a i {
 	}
 	nav ul li a {
 		height: auto;
-		padding: 0.5rem;
+		padding: 1rem;
 		margin: 0.5rem;
 
+		font-size: 1.75rem;
+
 		justify-content: start;
+	}
+	nav ul li a i {
+		font-size: 1.5rem;
+		margin-right: 0.75rem;
 	}
 	nav ul li a.active {
 		border-bottom: none;
