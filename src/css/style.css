@@ -28,6 +28,9 @@
 	padding: 0;
 	font-family: "Roboto", sans-serif;
 }
+a {
+	text-decoration: none;
+}
 html {
 	font-size: 20px;
 }
@@ -58,10 +61,15 @@ header a:visited {
 /* menu btn */
 header .menu {
 	display: none;
-	height: 2rem;
+	height: 1.4rem;
+	width: 1.75rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 header .menu #nav-icon {
-	width: 2rem;
+	width: 100%;
 	height: 100%;
 	position: relative;
 	-webkit-transform: rotate(0deg);
@@ -78,7 +86,7 @@ header .menu #nav-icon {
 header .menu #nav-icon span {
 	display: block;
 	position: absolute;
-	height: 0.4rem;
+	height: 0.25rem;
 	width: 100%;
 	background: var(--dark-theme-primary-text-color);
 	border-radius: 0.4rem;
@@ -99,15 +107,15 @@ header .menu #nav-icon span:nth-child(1) {
 }
 
 header .menu #nav-icon span:nth-child(2) {
-	top: 0.8rem;
+	top: 0.6rem;
 }
 
 header .menu #nav-icon span:nth-child(3) {
-	top: 1.6rem;
+	top: 1.15rem;
 }
 
 header .menu #nav-icon.open span:nth-child(1) {
-	top: 1rem;
+	top: 0.6rem;
 	-webkit-transform: rotate(135deg);
 	-moz-transform: rotate(135deg);
 	-o-transform: rotate(135deg);
@@ -120,7 +128,7 @@ header .menu #nav-icon.open span:nth-child(2) {
 }
 
 header .menu #nav-icon.open span:nth-child(3) {
-	top: 1rem;
+	top: 0.6rem;
 	-webkit-transform: rotate(-135deg);
 	-moz-transform: rotate(-135deg);
 	-o-transform: rotate(-135deg);
