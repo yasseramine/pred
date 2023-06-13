@@ -30,10 +30,10 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	width: 150px;
+	width: 7.5rem;
 	height: 2.5rem;
 	padding: 0.5rem;
-	border-radius: 10px;
+	border-radius: 0.5rem;
 	background-color: var(--dark-theme-bg-sec-color);
 
 	cursor: pointer;
@@ -46,9 +46,9 @@
 	background-color: var(--dark-theme-secondary-text-color);
 	color: var(--dark-mode-color);
 
-	border-radius: 8px;
-	width: 280px;
-	max-height: 400px;
+	border-radius: 0.4rem;
+	width: 14rem;
+	max-height: 20rem;
 
 	top: 3rem;
 	left: 50%;
@@ -65,7 +65,7 @@
 	margin: 0.5rem;
 	padding: 0.5rem;
 
-	border-radius: 8px;
+	border-radius: 0.4rem;
 
 	cursor: pointer;
 }
@@ -74,8 +74,10 @@
 	color: var(--dark-theme-primary-text-color);
 }
 .football .sides .side .select-item .list .item img {
-	width: 20px;
-	height: 20px;
+	width: 1.5rem;
+	height: 1.5rem;
+
+	border-radius: 0.25rem;
 
 	margin-right: 0.5rem;
 }
@@ -97,10 +99,10 @@
 .football .sides .side .select-item .selected-item .item .flag {
 	position: relative;
 
-	width: 100px;
-	height: 100px;
+	width: 5rem;
+	height: 5rem;
 
-	border-radius: 8px;
+	border-radius: 0.4rem;
 	overflow: hidden;
 
 	margin-bottom: 0.5rem;
@@ -112,13 +114,13 @@
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 8px;
+	border-radius: 0.4rem;
 }
 .football .sides .side .select-item .selected-item .item .info .favourite {
 	display: none;
 
-	width: 100px;
-	height: 100px;
+	width: 5rem;
+	height: 5rem;
 
 	background-color: rgba(0, 0, 0, 0.5);
 
@@ -129,7 +131,7 @@
 	transform: translateX(-50%);
 	z-index: 99;
 
-	border-radius: 8px;
+	border-radius: 0.4rem;
 
 	color: var(--dark-theme-bg-pri-color);
 	cursor: pointer;
@@ -162,8 +164,8 @@
 	align-items: center;
 }
 .football .prediction .vs .team .logo {
-	width: 100px;
-	height: 100px;
+	width: 5rem;
+	height: 5rem;
 
 	border-radius: 100%;
 	background-color: white;
@@ -178,15 +180,15 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 80px;
-	height: 80px;
+	width: 4rem;
+	height: 4rem;
 }
 .football .prediction .vs .team .color {
 	margin-top: 0.75rem;
-	width: 100px;
-	height: 10px;
+	width: 5rem;
+	height: 0.5rem;
 
-	border-radius: 5px;
+	border-radius: 0.25rem;
 }
 .football .prediction .vs .team-a .color {
 	background-color: var(--dark-theme-team-a-color);
@@ -214,10 +216,10 @@
 	align-items: center;
 }
 .football .prediction .report .teams .team .color {
-	width: 25px;
-	height: 25px;
+	width: 1.25rem;
+	height: 1.25rem;
 
-	border-radius: 5px;
+	border-radius: 0.25rem;
 }
 .football .prediction .report .teams .team-a .color {
 	margin-right: 0.5rem;
@@ -247,15 +249,20 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	padding: 0 0.25rem;
 }
 .football .prediction .metrics .data .row .player {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
+.football .prediction .metrics .data .row .player .name {
+	text-align: center;
+}
 .football .prediction .metrics .data .row .player .photo {
-	width: 45px;
-	height: 45px;
+	width: 2.25rem;
+	height: 2.25rem;
 
 	background: url("/src//images/unknown.svg") center/cover no-repeat;
 	border-radius: 50%;
@@ -267,4 +274,36 @@
 }
 .football .prediction .chart .chart-container {
 	margin-top: 1rem;
+}
+
+/* RESPONSIVE */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	/* FOOTBALL */
+	/* list */
+	.football .prediction .report {
+		padding: 1.5rem 2rem;
+	}
+	.football .prediction .chart {
+		padding: 0.5rem 0.5rem;
+	}
+	.football .prediction .chart .chart-container {
+		margin-top: 1rem;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

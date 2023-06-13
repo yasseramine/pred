@@ -35,10 +35,13 @@ html {
 /* APP CONTAINER */
 .app-container {
 	background-color: var(--dark-mode-color);
+	min-height: 100vh;
 }
 
 /********* HEADER *********/
 header {
+	height: 4rem;
+
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -47,6 +50,16 @@ header {
 	padding: 0 3rem;
 
 	background-color: var(--navbar-bg-color);
+}
+header .menu {
+	display: none;
+}
+header a:visited {
+	text-decoration: none;
+}
+header .right-side {
+	display: flex;
+	align-items: center;
 }
 /* LOGO */
 .logo {
@@ -58,7 +71,8 @@ header {
 	font-weight: bolder;
 }
 .logo img {
-	height: 50px;
+	width: 2.5rem;
+	height: 2.5rem;
 	margin-right: 0.5rem;
 }
 
@@ -104,8 +118,8 @@ nav ul li a i {
 .theme-toggler .switch {
 	position: relative;
 	display: inline-block;
-	width: 65px;
-	height: 35px;
+	width: 3.25rem;
+	height: 1.75rem;
 }
 
 .theme-toggler .switch input {
@@ -129,10 +143,10 @@ nav ul li a i {
 .theme-toggler .slider:before {
 	position: absolute;
 	content: "";
-	height: 28px;
-	width: 28px;
-	left: 6px;
-	bottom: 4px;
+	height: 1.4rem;
+	width: 1.4rem;
+	left: 0.3rem;
+	bottom: 0.2rem;
 	background-color: white;
 	-webkit-transition: 0.4s;
 	transition: 0.4s;
@@ -143,12 +157,12 @@ nav ul li a i {
 }
 
 .theme-toggler input:checked + .slider:before {
-	-webkit-transform: translateX(26px);
-	-ms-transform: translateX(26px);
-	transform: translateX(26px);
+	-webkit-transform: translateX(1.5rem);
+	-ms-transform: translateX(1.5rem);
+	transform: translateX(1.5rem);
 }
 .theme-toggler .slider.round {
-	border-radius: 34px;
+	border-radius: 1.7rem;
 }
 
 .theme-toggler .slider.round:before {
@@ -158,8 +172,8 @@ nav ul li a i {
 	position: absolute;
 }
 .theme-toggler .slider .light {
-	left: 9px;
-	top: 7px;
+	left: 0.6rem;
+	top: 0.45rem;
 	opacity: 1;
 	transition: opacity 500ms ease-in-out;
 }
@@ -167,8 +181,8 @@ nav ul li a i {
 	opacity: 0;
 }
 .theme-toggler .slider .dark {
-	right: 9px;
-	top: 7px;
+	right: 0.45rem;
+	top: 0.45rem;
 	opacity: 0;
 	transition: opacity 500ms ease-in-out;
 }
@@ -178,9 +192,9 @@ nav ul li a i {
 
 /****** CONTAINER *******/
 .container {
+	min-height: calc(100vh - var(--header-height));
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
-	grid-template-areas: "l l l m m m m m m r r r";
 
 	padding: 1rem;
 	color: var(--dark-theme-primary-text-color);
@@ -229,8 +243,8 @@ nav ul li a i {
 	color: var(--dark-theme-secondary-hover-color);
 }
 .favourites .list ul li img {
-	width: 32px;
-	height: 32px;
+	width: 1.6rem;
+	height: 1.6rem;
 	margin-right: 0.5rem;
 }
 /* TRENDING */
@@ -248,7 +262,7 @@ nav ul li a i {
 }
 .trending .main a img {
 	width: 100%;
-	border-radius: 8px;
+	border-radius: 0.4rem;
 }
 .trending .list {
 	margin: 1rem 0;
@@ -271,7 +285,7 @@ nav ul li a i {
 	color: var(--dark-theme-secondary-hover-color);
 }
 .trending .list ul li a .title {
-	height: 70px;
+	height: 3.5rem;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
@@ -280,8 +294,8 @@ nav ul li a i {
 	line-height: 1.3;
 }
 .trending .list ul li a img {
-	width: 70px;
-	height: 70px;
+	width: 3.5rem;
+	height: 3.5rem;
 	border-radius: 8px;
 
 	margin-right: 0.5rem;
@@ -300,8 +314,8 @@ nav ul li a i {
 	color: var(--dark-theme-secondary-text-color);
 	padding: 0.5rem;
 	margin-right: 0.5rem;
-	border-radius: 20px;
-	min-width: 30px;
+	border-radius: 1rem;
+	min-width: 1.5rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -321,8 +335,8 @@ nav ul li a i {
 	align-items: center;
 }
 .home .list .league .header img {
-	width: 50px;
-	height: 50px;
+	width: 2.5rem;
+	height: 2.5rem;
 	margin-right: 0.75rem;
 }
 .home .list .league .header .name {
@@ -352,8 +366,8 @@ nav ul li a i {
 	font-size: 0.9rem;
 }
 .home .list .league .matches .match img {
-	width: 30px;
-	height: 30px;
+	width: 1.5rem;
+	height: 1.5rem;
 }
 .home .list .league .matches .match .teamA,
 .home .list .league .matches .match .teamB {
@@ -389,8 +403,8 @@ nav ul li a i {
 	align-items: center;
 	justify-content: center;
 
-	width: 32px;
-	height: 32px;
+	width: 1.6rem;
+	height: 1.6rem;
 	margin-left: 1rem;
 
 	background-color: var(--dark-theme-bg-sec-color);
@@ -420,16 +434,16 @@ nav ul li a i {
 	justify-content: center;
 	position: relative;
 
-	height: 80px;
+	height: 4rem;
 }
 .lds-ring div {
 	box-sizing: border-box;
 	display: block;
 	position: absolute;
-	width: 34px;
-	height: 34px;
-	margin: 8px;
-	border: 4px solid #fff;
+	width: 1.7rem;
+	height: 1.7rem;
+	margin: 0.4rem;
+	border: 0.2rem solid #fff;
 	border-radius: 50%;
 	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 	border-color: #fff transparent transparent transparent;
@@ -449,5 +463,80 @@ nav ul li a i {
 	}
 	100% {
 		transform: rotate(360deg);
+	}
+}
+
+/* RESPONSIVE */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 768px) {
+	html {
+		font-size: 14px;
+	}
+	/* header */
+	header {
+		justify-content: space-between;
+		padding: 0 2rem;
+	}
+	header nav {
+		display: none;
+	}
+	header a .logo img {
+		width: 2rem;
+		height: 2rem;
+	}
+	header .menu {
+		display: block;
+		color: var(--dark-theme-primary-text-color);
+		font-size: 1.3rem;
+		cursor: pointer;
+	}
+	/* theme toggler */
+	.theme-toggler .switch .slider .dark {
+		top: 0.42rem;
+		right: 0.35rem;
+		font-size: 0.9rem;
+	}
+	.theme-toggler .switch .slider .light {
+		top: 0.42rem;
+		left: 0.55rem;
+		font-size: 0.9rem;
+	}
+	/* container */
+	.container {
+		grid-template-areas:
+			"m m m m m m m m m m m m"
+			"l l l l l l l l l l l l"
+			"r r r r r r r r r r r r";
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	html {
+		font-size: 16px;
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	/* container */
+	.container {
+		grid-template-areas:
+			"l l l m m m m m m m m m"
+			"r r r r r r r r r r r r";
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.container {
+		grid-template-areas: "l l l m m m m m m r r r";
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+	.container {
+		grid-template-areas: "l l m m m m m m r r r r";
 	}
 }
