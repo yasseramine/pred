@@ -19,6 +19,8 @@
 	--dark-theme-bg-sec-color: #313131;
 	--dark-theme-team-a-color: #a059e2;
 	--dark-theme-team-b-color: #43b3e7;
+
+	--loader-color: #dcdcdc;
 }
 .light-theme {
 	--navbar-text-color: #ad3f50;
@@ -40,6 +42,8 @@
 	--dark-theme-bg-sec-color: #959090;
 	--dark-theme-team-a-color: #a059e2;
 	--dark-theme-team-b-color: #43b3e7;
+
+	--loader-color: #161616;
 }
 /********* GENERAL *********/
 * {
@@ -537,6 +541,8 @@ nav ul li a i {
 
 /* CSS LOADER */
 .lds-ring {
+	width: 100%;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -551,10 +557,10 @@ nav ul li a i {
 	width: 1.7rem;
 	height: 1.7rem;
 	margin: 0.4rem;
-	border: 0.2rem solid #fff;
+	border: 0.2rem solid var(--loader-color);
 	border-radius: 50%;
 	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	border-color: #fff transparent transparent transparent;
+	border-color: var(--loader-color) transparent transparent transparent;
 }
 .lds-ring div:nth-child(1) {
 	animation-delay: -0.45s;
