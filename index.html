@@ -20,6 +20,7 @@
 		<script src="/src/js/blogger.js" defer></script>
 		<script src="/src/js/themeToggler.js" defer></script>
 		<script src="/src/js/fav-list.js" defer></script>
+		<!-- <script src="/src/js/widget.js" defer></script> -->
 	</head>
 	<body>
 		<div class="app-container">
@@ -165,12 +166,28 @@
 									</div>
 								</div>
 							</div>
+							<div
+								id="wg-api-football-games"
+								data-host="v3.football.api-sports.io"
+								data-key="768506911489c55337ba6dce3ded28b9"
+								data-date=""
+								data-league=""
+								data-season=""
+								data-theme="dark"
+								data-refresh="15"
+								data-show-toolbar="true"
+								data-show-errors="false"
+								data-show-logos="true"
+								data-modal-game="true"
+								data-modal-standings="true"
+								data-modal-show-logos="true"
+							></div>
 						</div>
 					</div>
 				</div>
 				<div class="right trending">
 					<div class="header">Tending News 🔥</div>
-					<div class="main" id="blogger-posts"></div>
+					<div class="posts" id="blogger-posts"></div>
 				</div>
 			</div>
 		</div>

@@ -3,6 +3,7 @@
 	--navbar-text-color: #ad3f50;
 	--navbar-text-color-sec: #959595;
 	--navbar-bg-color: #1e1e1e;
+	--navbar-bg-color-rgb: 30, 30, 30;
 	--flag-shadow-color: #5e5e5e;
 	--border-color: #cacaca;
 	--header-height: 80px;
@@ -26,6 +27,7 @@
 	--navbar-text-color: #ad3f50;
 	--navbar-text-color-sec: #363636;
 	--navbar-bg-color: #ffffff;
+	--navbar-bg-color-rgb: 255, 255, 255;
 	--flag-shadow-color: #5e5e5e;
 	--border-color: #cacaca;
 	--header-height: 80px;
@@ -360,31 +362,34 @@ nav ul li a i {
 	padding: 0.75rem 0.75rem;
 	font-size: 1.2rem;
 }
-.trending .main .featured a {
+.trending .posts {
+	padding: 0 1rem;
+}
+.trending .posts .featured a {
 	text-decoration: none;
 	font-size: 1rem;
 	color: var(--dark-theme-secondary-text-color);
 }
-.trending .main .featured a:hover {
+.trending .posts .featured a:hover {
 	text-decoration: none;
 	color: var(--dark-theme-secondary-hover-color);
 }
-.trending .main .featured a img {
+.trending .posts .featured a img {
 	width: 100%;
 	border-radius: 0.4rem;
 }
-.trending .main .list {
+.trending .posts .list {
 	margin: 1rem 0;
 }
-.trending .main .list ul {
+.trending .posts .list ul {
 	margin: 0;
 	padding: 0.5rem 0.5rem;
 }
-.trending .main .list ul li {
+.trending .posts .list ul li {
 	list-style-type: none;
 	margin: 1rem 0;
 }
-.trending .main .list ul li a {
+.trending .posts .list ul li a {
 	display: flex;
 	align-items: center;
 
@@ -392,10 +397,10 @@ nav ul li a i {
 	color: var(--dark-theme-secondary-text-color);
 	font-size: 0.9rem;
 }
-.trending .main .list ul li a:hover {
+.trending .posts .list ul li a:hover {
 	color: var(--dark-theme-secondary-hover-color);
 }
-.trending .main .list ul li a .title {
+.trending .posts .list ul li a .title {
 	height: 3.5rem;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
@@ -404,7 +409,7 @@ nav ul li a i {
 	text-overflow: ellipsis;
 	line-height: 1.3;
 }
-.trending .main .list ul li a img {
+.trending .posts .list ul li a img {
 	width: 4rem;
 	height: 3.5rem;
 	border-radius: 5px;

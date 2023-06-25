@@ -1,3 +1,16 @@
+/* container */
+.container {
+	background-image: url("/src/images/bg.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.container .left,
+.container .main,
+.container .right {
+	background-color: rgba(var(--navbar-bg-color-rgb), 0.75) !important;
+}
+
 /****** FOOTBALL PAGE *******/
 .football .header {
 	padding: 1rem 1rem 0 1rem;
