@@ -393,6 +393,7 @@ async function updatePrediction() {
 			against: teamA.goals.against.total.total,
 		},
 		color: "#a059e2",
+		cards: teamA.cards,
 	};
 	const teamBObj = {
 		name: sideB.value.team.name,
@@ -406,6 +407,7 @@ async function updatePrediction() {
 			against: teamB.goals.against.total.total,
 		},
 		color: "#43b3e7",
+		cards: teamB.cards,
 	};
 	prediction.self.innerHTML = renderReport(teamAObj, teamBObj);
 
@@ -484,15 +486,21 @@ function renderReport(teamA, teamB) {
 			</div>`;
 }
 function renderChart(ctx, teamA, teamB) {
-	const labels = ["Wins", "Loses", "Draws", "Goals for", "Goals aginst"];
+	const labels = ["Wins", "Loses", "Draws", "Goals for", "Goals aginst", "ٌRed Cards"];
 
-	console.log(teamA, teamB);
 	const data = {
 		labels: labels,
 		datasets: [
 			{
 				label: teamA.name,
-				data: [teamA.wins, teamA.loses, teamA.draws, teamA.goals.for, teamA.goals.against],
+				data: [
+					teamA.wins,
+					teamA.loses,
+					teamA.draws,
+					teamA.goals.for,
+					teamA.goals.against,
+					getRedCards(teamA),
+				],
 				borderColor: teamA.color,
 				backgroundColor: `rgba(${teamA.color}, 0.5)`,
 				borderWidth: 2,
@@ -501,7 +509,14 @@ function renderChart(ctx, teamA, teamB) {
 			},
 			{
 				label: teamB.name,
-				data: [teamB.wins, teamB.loses, teamB.draws, teamB.goals.for, teamB.goals.against],
+				data: [
+					teamB.wins,
+					teamB.loses,
+					teamB.draws,
+					teamB.goals.for,
+					teamB.goals.against,
+					getRedCards(teamB),
+				],
 				borderColor: teamB.color,
 				backgroundColor: `rgba(${teamB.color}, 0.5)`,
 				borderWidth: 2,
@@ -522,6 +537,16 @@ function renderChart(ctx, teamA, teamB) {
 	};
 
 	new Chart(ctx, config);
+}
+function getRedCards(team) {
+	const { red } = team.cards;
+
+	let sum = 0;
+	Object.values(red).forEach((el) => {
+		sum += el.total ? el.total : 0;
+	});
+
+	return sum;
 }
 function topScorer(players) {
 	const top = players.sort((a, b) => {
