@@ -146,8 +146,39 @@ function selectCountry(evt, side, countries) {
 	// hide teams el
 	side.teamEl.hidden.el = true;
 	updateElementsVisibility();
+
+	// minimize country flags
+	minimizeFlags("country");
+
+	// hide report
+	prediction.self.classList.add("hide");
+
 	// render leagues
 	renderLeagues(side);
+}
+
+function minimizeFlags(item) {
+	const country_a_flag = sideA.countryEl.selected.querySelector(".flag");
+	const country_b_flag = sideB.countryEl.selected.querySelector(".flag");
+	const league_a_flag = sideA.leagueEl.selected.querySelector(".flag");
+	const league_b_flag = sideB.leagueEl.selected.querySelector(".flag");
+
+	switch (item) {
+		case "country":
+			if (!sideA.value.country || !sideB.value.country) break;
+			country_a_flag.classList.add("minimize");
+			country_a_flag.nextElementSibling.classList.add("minimize");
+			country_b_flag.classList.add("minimize");
+			country_b_flag.nextElementSibling.classList.add("minimize");
+		case "league":
+			if (!sideA.value.league || !sideB.value.league) break;
+			league_a_flag.classList.add("minimize");
+			league_a_flag.nextElementSibling.classList.add("minimize");
+			league_b_flag.classList.add("minimize");
+			league_b_flag.nextElementSibling.classList.add("minimize");
+		default:
+			break;
+	}
 }
 
 async function renderLeagues(side) {
@@ -218,6 +249,12 @@ function selectLeague(evt, side, leagues) {
 
 	// Save league
 	side.value.league = leagueObj;
+
+	// minimize league flags
+	minimizeFlags("league");
+
+	// hide report
+	prediction.self.classList.add("hide");
 
 	resetTeam(side);
 	renderTeams(side, leagueId);

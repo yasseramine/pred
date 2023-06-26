@@ -7,7 +7,7 @@
 
 /****** FOOTBALL PAGE *******/
 .football {
-	max-height: 100dvh;
+	height: calc(100dvh - var(--header-height));
 	overflow-y: auto;
 }
 .football .header {
@@ -67,7 +67,7 @@
 
 	overflow-x: hidden;
 	overflow-y: auto;
-	z-index: 1;
+	z-index: 99;
 }
 .football .sides .side .select-item .list .item {
 	display: flex;
@@ -97,10 +97,12 @@
 	align-items: center;
 	justify-content: center;
 }
+
 .football .sides .side .select-item .selected-item .item {
 	margin: 0.5rem 2rem;
 	position: relative;
 }
+
 .football .sides .side .select-item .selected-item .item .info {
 	display: flex;
 	flex-direction: column;
@@ -114,12 +116,20 @@
 	height: 5rem;
 
 	border-radius: 0.4rem;
+	border: 1px solid var(--navbar-bg-color);
+
 	overflow: hidden;
 
 	margin-bottom: 0.5rem;
 
 	background: url("/src/images/unknown.svg") center/cover no-repeat;
+	transition: all 300ms ease-in-out;
 }
+.football .sides .side .select-item .selected-item .item .flag.minimize {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
 .football .sides .side .select-item .selected-item .item .flag:hover + .favourite {
 	display: flex;
 	justify-content: center;
@@ -151,6 +161,10 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.football .sides .side .select-item .selected-item .item .info .favourite.minimize {
+	width: 2.5rem;
+	height: 2.5rem;
 }
 
 /** PREDICTION **/
