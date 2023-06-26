@@ -341,7 +341,7 @@ async function updatePrediction() {
 	const teamB_TopScorer = topScorer(teamB_Players);
 
 	// render vs element
-	prediction.self.innerHTML = renderVS(sideA.value.team, sideB.value.team);
+	// prediction.self.innerHTML = renderVS(sideA.value.team, sideB.value.team);
 
 	// render report
 	const teamAObj = {
@@ -370,7 +370,7 @@ async function updatePrediction() {
 		},
 		color: "#43b3e7",
 	};
-	prediction.self.innerHTML += renderReport(teamAObj, teamBObj);
+	prediction.self.innerHTML = renderReport(teamAObj, teamBObj);
 
 	// render chart
 	prediction.self.innerHTML += `<div class="chart">
@@ -459,8 +459,8 @@ function renderChart(ctx, teamA, teamB) {
 				borderColor: teamA.color,
 				backgroundColor: `rgba(${teamA.color}, 0.5)`,
 				borderWidth: 2,
-				borderRadius: Number.MAX_VALUE,
 				borderSkipped: false,
+				categoryPercentage: 0.5,
 			},
 			{
 				label: teamB.name,
@@ -468,7 +468,6 @@ function renderChart(ctx, teamA, teamB) {
 				borderColor: teamB.color,
 				backgroundColor: `rgba(${teamB.color}, 0.5)`,
 				borderWidth: 2,
-				borderRadius: Number.MAX_VALUE,
 				borderSkipped: false,
 			},
 		],
@@ -478,6 +477,9 @@ function renderChart(ctx, teamA, teamB) {
 		type: "bar",
 		data: data,
 		options: {
+			x: {
+				stacked: true,
+			},
 			responsive: true,
 		},
 	};
