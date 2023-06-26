@@ -1,14 +1,8 @@
 /* container */
-.container {
-	background-image: url("/src/images/bg.png");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-}
 .container .left,
 .container .main,
 .container .right {
-	background-color: rgba(var(--navbar-bg-color-rgb), 0.75) !important;
+	background-color: rgba(var(--navbar-bg-color-rgb), var(--opacity)) !important;
 }
 
 /****** FOOTBALL PAGE *******/
@@ -297,6 +291,7 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 	/* FOOTBALL */
+
 	/* list */
 	.football .prediction .report {
 		padding: 1.5rem 2rem;

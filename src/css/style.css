@@ -11,6 +11,7 @@
 	--toggler-bg-dark-color: #313131;
 	--toggler-bg-light-color: #b7b7b7;
 	--nav-link-border-width: 3px;
+	--opacity: 0.75;
 
 	/* DARK THEME */
 	--dark-theme-primary-text-color: #fff;
@@ -61,9 +62,13 @@ html {
 	font-size: 20px;
 }
 
-/* APP CONTAINER */
+/* app container */
 .app-container {
-	background-color: var(--dark-mode-color);
+	background-image: url("/src/images/bg.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
 	min-height: 100vh;
 }
 
@@ -78,7 +83,7 @@ header {
 	height: var(--header-height);
 	padding: 0 3rem;
 
-	background-color: var(--navbar-bg-color);
+	background-color: rgba(var(--navbar-bg-color-rgb), var(--opacity));
 }
 header a:visited {
 	text-decoration: none;
