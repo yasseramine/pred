@@ -1,10 +1,3 @@
-/* container */
-.container .left,
-.container .main,
-.container .right {
-	background-color: rgba(var(--navbar-bg-color-rgb), var(--opacity)) !important;
-}
-
 /****** FOOTBALL PAGE *******/
 .football {
 	height: calc(100dvh - var(--header-height));

@@ -310,10 +310,10 @@ nav ul li a i {
 	grid-area: r;
 }
 /* LEFT MAIN RIGHT*/
-.left,
-.main,
-.right {
-	background-color: var(--navbar-bg-color);
+.container .left,
+.container .main,
+.container .right {
+	background-color: rgba(var(--navbar-bg-color-rgb), var(--opacity));
 	margin: 0.5rem;
 	border-radius: 0.5rem;
 }
