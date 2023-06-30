@@ -49,7 +49,6 @@ const sideA = new SideElementSelector("a");
 const sideB = new SideElementSelector("b");
 const prediction = {
 	self: document.getElementById("#prediction"),
-	vsEl: document.getElementById("#prediction").querySelector(".vs"),
 	reportEl: document.getElementById("#prediction").querySelector(".report"),
 	chartEl: document.getElementById("#prediction").querySelector(".chart"),
 };
@@ -369,16 +368,18 @@ async function updatePrediction() {
 	const teamA = await getTeam(leagueA_Id, teamA_Id);
 	const teamA_Players = await getPlayers(leagueA_Id, teamA_Id);
 	const teamA_Standings = await getStandings(leagueA_Id, teamA_Id);
+	const teamA_fixtures = await getFixutures(leagueA_Id, teamA_Id);
 
 	const teamB = await getTeam(leagueB_Id, teamB_Id);
 	const teamB_Players = await getPlayers(leagueB_Id, teamB_Id);
 	const teamB_Standings = await getStandings(leagueB_Id, teamB_Id);
+	const teamB_fixtures = await getFixutures(leagueB_Id, teamB_Id);
 
 	const teamA_TopScorer = topScorer(teamA_Players);
 	const teamB_TopScorer = topScorer(teamB_Players);
 
-	// render vs element
-	// prediction.self.innerHTML = renderVS(sideA.value.team, sideB.value.team);
+	const teamA_Last_5_matches = last_5_matches(teamA_fixtures, teamA_Id);
+	const teamB_Last_5_matches = last_5_matches(teamB_fixtures, teamB_Id);
 
 	// render report
 	const teamAObj = {
@@ -394,6 +395,7 @@ async function updatePrediction() {
 		},
 		color: "#a059e2",
 		cards: teamA.cards,
+		last_5_matches: teamA_Last_5_matches,
 	};
 	const teamBObj = {
 		name: sideB.value.team.name,
@@ -408,6 +410,7 @@ async function updatePrediction() {
 		},
 		color: "#43b3e7",
 		cards: teamB.cards,
+		last_5_matches: teamB_Last_5_matches,
 	};
 	prediction.self.innerHTML = renderReport(teamAObj, teamBObj);
 
@@ -421,28 +424,20 @@ async function updatePrediction() {
 	const ctx = document.getElementById("football-chart");
 	renderChart(ctx, teamAObj, teamBObj);
 }
-function renderVS(teamA, teamB) {
-	teamA_logo = teamA.logo ? teamA.logo : "/src/images/unknown.svg";
-	teamB_logo = teamB.logo ? teamB.logo : "/src/images/unknown.svg";
+function last_5_matches(fixtures, teamId) {
+	teamId = 33;
 
-	return `<div class="vs">
-				<div class="team team-a">
-					<div class="logo">
-						<img src="${teamA_logo}" />
-					</div>
-					${teamA.name}
-					<div class="color"></div>
-				</div>
-				<span>VS.</span>
-				<div class="team team-b">
-					<div class="logo">
-						<img src="${teamB_logo}" />
-					</div>
-					${teamB.name}
-					<div class="color"></div>
-				</div>
-			</div>
-	`;
+	return fixtures
+		.slice(0, 5)
+		.map((fixture) => Object.values(fixture.teams).find((el) => el.id == teamId).winner)
+		.map((winner) =>
+			winner == null
+				? `<div class="draw">D</div>`
+				: winner
+				? `<div class="win">W</div>`
+				: `<div class="lost">L</div>`
+		)
+		.join("");
 }
 function renderReport(teamA, teamB) {
 	teamA_TopScorer_Photo = `background:url('${teamA.topScorer.photo}') center/cover no-repeat`;
@@ -480,6 +475,15 @@ function renderReport(teamA, teamB) {
 							<div class="col rank">#${teamA.rank}</div>
 							<div class="metric">Rank</div>
 							<div class="col rank">#${teamB.rank}</div>
+						</div>
+						<div class="row">
+							<div class="col last-5-matches">
+								${teamA.last_5_matches}
+							</div>
+							<div class="metric">Last 5 Matches</div>
+							<div class="col last-5-matches">
+								${teamB.last_5_matches}
+							</div>
 						</div>
 					</div>
 				</div>

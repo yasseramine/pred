@@ -128,3 +128,24 @@ async function getStandings(leagueId, teamId) {
 
 	return data.response[0].league.standings[0][0];
 }
+
+/* get fixuters by team id */
+async function getFixutures(leagueId, teamId) {
+	const endpoint = `${URI}/fixtures
+						?league=${leagueId}
+						&season=${SEASON - 1}
+						&team=${teamId}`;
+	const options = {
+		method: "GET",
+		headers: {
+			"x-rapidapi-host": "v3.football.api-sports.io",
+			"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
+		},
+	};
+
+	const local = "/data/fixtures.json";
+	const response = await fetch(local);
+	const data = await response.json();
+
+	return data.response;
+}
