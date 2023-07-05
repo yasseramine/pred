@@ -3,8 +3,7 @@ const options = {
 	method: "GET",
 	headers: {
 		"x-rapidapi-host": "v3.football.api-sports.io",
-		/* "x-rapidapi-key": "768506911489c55337ba6dce3ded28b9", */
-		"x-rapidapi-key": "7a6b94f4a3b6cf72d1bfa6d8d6579054",
+		"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
 	},
 };
 
