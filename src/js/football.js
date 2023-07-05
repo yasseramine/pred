@@ -92,7 +92,7 @@ function updateListVisibility(el) {
 
 // render select menu
 function renderCountries(countries) {
-	options = countries.map((country, index) => {
+	const options = countries.map((country, index) => {
 		if (country.code)
 			return `<div class="item" data-name="${country.name}" data-type="country" id="${index}" data-code="${country.code}">
 					<img src="${country.flag}" />
@@ -187,9 +187,12 @@ async function renderLeagues(side) {
 
 	// get leagues
 	const leagues = await getLeagues(side.value.country.name);
+	if (!leagues) {
+		return;
+	}
 
 	/* render leagues */
-	options = leagues.map(({ league, country }) => {
+	const options = leagues.map(({ league, country }) => {
 		return `<div class="item" data-name="${league.name}" data-type="league" id="${league.id}" data-code="${country.code}">
 					<img src="${league.logo}" />
 					${league.name}
@@ -272,9 +275,12 @@ function resetTeam(side) {
 async function renderTeams(side, leagueId) {
 	// get teams by league id
 	const teams = await getTeams(leagueId);
+	if (!teams) {
+		return;
+	}
 
 	/* render leagues */
-	options = teams.map(({ team }) => {
+	const options = teams.map(({ team }) => {
 		return `<div class="item" data-name="${team.name}" data-type="team" id="${team.id}" data-code="${team.code}">
 					<img src="${team.logo}" />
 					${team.name}
@@ -366,14 +372,22 @@ async function updatePrediction() {
 		teamB_Id = sideB.value.team.id;
 
 	const teamA = await getTeam(leagueA_Id, teamA_Id);
+	if (!teamA) return;
 	const teamA_Players = await getPlayers(leagueA_Id, teamA_Id);
+	if (!teamA_Players) return;
 	const teamA_Standings = await getStandings(leagueA_Id, teamA_Id);
+	if (!teamA_Standings) return;
 	const teamA_fixtures = await getFixutures(leagueA_Id, teamA_Id);
+	if (!teamA_fixtures) return;
 
 	const teamB = await getTeam(leagueB_Id, teamB_Id);
+	if (!teamB) return;
 	const teamB_Players = await getPlayers(leagueB_Id, teamB_Id);
+	if (!teamB_Players) return;
 	const teamB_Standings = await getStandings(leagueB_Id, teamB_Id);
+	if (!teamB_Standings) return;
 	const teamB_fixtures = await getFixutures(leagueB_Id, teamB_Id);
+	if (!teamB_fixtures) return;
 
 	const teamA_TopScorer = topScorer(teamA_Players);
 	const teamB_TopScorer = topScorer(teamB_Players);
@@ -567,7 +581,9 @@ function topScorer(players) {
 /* init app */
 async function initCountries() {
 	const countries = await getCountries();
-
+	if (!countries) {
+		return;
+	}
 	renderCountries(countries);
 }
 initCountries();

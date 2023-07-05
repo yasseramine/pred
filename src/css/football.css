@@ -318,8 +318,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	background-color: aquamarine;
 }
 .football .prediction .metrics .data .row .last-5-matches .win {
 	background-color: #5bb64d;
