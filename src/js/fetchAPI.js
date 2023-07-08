@@ -13,7 +13,6 @@ async function getCountries() {
 
 // get all leagues by country
 async function getLeagues(country_id) {
-	console.log("getting leagues");
 	const endpoint = `${URI}get_leagues
 						&country_id=${country_id}
 						&APIkey=${api_key}`;
@@ -26,7 +25,6 @@ async function getLeagues(country_id) {
 
 // get all teams by league id
 async function getTeams(league_id) {
-	console.log("getting teams");
 	const endpoint = `${URI}get_teams
 						&league_id=${league_id}
 						&APIkey=${api_key}`;
@@ -50,11 +48,18 @@ async function getStandings(league_id) {
 }
 
 /* get fixtures */
-async function getFixutures(team_id) {
+async function getFixutures(league_id, team_id) {
+	// get fixutures for the last 4 months
+	const d = new Date();
+	const today = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+	d.setMonth(d.getMonth() - 4);
+	const start = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+
 	const endpoint = `${URI}get_events
+						&league_id=${league_id}
 						&team_id=${team_id}
-						&from=2023-01-00
-						&to=2023-07-08
+						&from=${start}
+						&to=${today}
 						&APIkey=${api_key}`;
 
 	const response = await fetch(endpoint);

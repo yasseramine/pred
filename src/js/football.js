@@ -433,6 +433,9 @@ async function renderReport() {
 		teamB_standings = await getStandings(sideB.selected.league.league_id);
 	}
 
+	const fixturesA = await getFixutures(sideA.selected.league.league_id, teamA.team_key);
+	const fixturesB = await getFixutures(sideB.selected.league.league_id, teamB.team_key);
+
 	teamA = {
 		...teamA,
 		...teamStandings(teamA_standings, teamA),
@@ -441,6 +444,7 @@ async function renderReport() {
 		red_cards: teamA.players.reduce((accum, currVal) => {
 			return accum + parseInt(currVal.player_red_cards);
 		}, 0),
+		last_5_matches: last_5_matches(fixturesA, teamA.team_key),
 	};
 	teamB = {
 		...teamB,
@@ -450,10 +454,9 @@ async function renderReport() {
 		red_cards: teamB.players.reduce((accum, currVal) => {
 			return accum + parseInt(currVal.player_red_cards);
 		}, 0),
+		last_5_matches: last_5_matches(fixturesB, teamB.team_key),
 	};
 
-	console.log(teamA);
-	console.log(teamB);
 	// render report
 	report.innerHTML = createReport(teamA, teamB);
 
@@ -481,17 +484,26 @@ function teamStandings(leagueStandings, team) {
 	}
 	return leagueStandings.find((t) => t.team_id === team.team_key);
 }
-function last_5_matches(fixtures, teamId) {
-	return fixtures
+function last_5_matches(fixtures, team_id) {
+	const sortFix = fixtures.sort((a, b) => new Date(b.match_date) - new Date(a.match_date));
+
+	return sortFix
 		.slice(0, 5)
-		.map((fixture) => Object.values(fixture.teams).find((el) => el.id == teamId).winner)
-		.map((winner) =>
-			winner == null
-				? `<div class="draw">D</div>`
-				: winner
-				? `<div class="win">W</div>`
-				: `<div class="lost">L</div>`
-		)
+		.map((match) => {
+			let score;
+
+			if (match.match_awayteam_id == team_id) {
+				score = parseInt(match.match_awayteam_score) - parseInt(match.match_hometeam_score);
+			}
+			if (match.match_hometeam_id == team_id) {
+				score = parseInt(match.match_hometeam_score) - parseInt(match.match_awayteam_score);
+			}
+
+			if (score == 0) return "<div class='draw'>D</div>";
+			if (score < 0) return "<div class='lost'>L</div>";
+			if (score > 0) return "<div class='win'>W</div>";
+		})
+		.reverse()
 		.join("");
 }
 function createReport(teamA, teamB) {
