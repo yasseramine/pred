@@ -9,7 +9,7 @@ const SEASON = new Date().getFullYear();
 function SideElementSelector(side) {
 	this.side = side;
 	this.parentEl = document.querySelector(`#side-${side}`);
-	this.selected = {
+	this.value = {
 		country: undefined,
 		league: undefined,
 		team: undefined,
@@ -52,7 +52,11 @@ function SideElementSelector(side) {
 }
 const sideA = new SideElementSelector("a");
 const sideB = new SideElementSelector("b");
-const report = document.getElementById("#report");
+const prediction = {
+	self: document.getElementById("#prediction"),
+	reportEl: document.getElementById("#prediction").querySelector(".report"),
+	chartEl: document.getElementById("#prediction").querySelector(".chart"),
+};
 
 // all elements
 const elements = [
@@ -93,19 +97,12 @@ function updateListVisibility(el) {
 
 // render select menu
 function renderCountries(countries) {
-	const options = countries.map((c) => {
-		if (c) {
-			let logo;
-			if (!c.country_logo) {
-				logo = "/src/images/unknown.svg";
-			} else {
-				logo = c.country_logo;
-			}
-			return `<div class="item" data-name="${c.country_name}" data-type="country" id="${c.country_id}">
-					<img src="${logo}" />
-					${c.country_name}
+	const options = countries.map((country, index) => {
+		if (country.code)
+			return `<div class="item" data-name="${country.name}" data-type="country" id="${index}" data-code="${country.code}">
+					<img src="${country.flag}" />
+					${country.name}
 				</div>`;
-		}
 	});
 
 	sideA.countryEl.list.innerHTML = options.join("");
@@ -129,20 +126,14 @@ function selectCountry(evt, side, countries) {
 
 	/* get country obj */
 	const countryId = evt.target.id;
-	let country = countries.find((c) => c.country_id == countryId);
+	let countryObj = countries[countryId];
 
-	let logo;
-	if (!country.country_logo) {
-		logo = "/src/images/unknown.svg";
-	} else {
-		logo = country.country_logo;
-	}
-	const bg = `background:url('${logo}') white center/cover no-repeat`;
+	const bg = `background:url('${countryObj.flag}') white center/cover no-repeat`;
 	side.countryEl.selected.innerHTML = `
 				<div class="item">
 					<div class="info">
 						<div class="flag" style="${bg}"></div>
-						${country.country_name}
+						${countryObj.name}
 						<div class="favourite">
 							<i class="fa-regular fa-heart"></i>
 							<!-- <i class="fa-solid fa-heart"></i> -->
@@ -152,7 +143,7 @@ function selectCountry(evt, side, countries) {
 	`;
 
 	// Save country
-	side.selected.country = country;
+	side.value.country = countryObj;
 
 	// reset league
 	resetLeague(side);
@@ -164,7 +155,7 @@ function selectCountry(evt, side, countries) {
 	minimizeFlags("country");
 
 	// hide report
-	report.classList.add("hide");
+	prediction.self.classList.add("hide");
 
 	// render leagues
 	renderLeagues(side);
@@ -178,13 +169,13 @@ function minimizeFlags(item) {
 
 	switch (item) {
 		case "country":
-			if (!sideA.selected.country || !sideB.selected.country) break;
+			if (!sideA.value.country || !sideB.value.country) break;
 			country_a_flag.classList.add("minimize");
 			country_a_flag.nextElementSibling.classList.add("minimize");
 			country_b_flag.classList.add("minimize");
 			country_b_flag.nextElementSibling.classList.add("minimize");
 		case "league":
-			if (!sideA.selected.league || !sideB.selected.league) break;
+			if (!sideA.value.league || !sideB.value.league) break;
 			league_a_flag.classList.add("minimize");
 			league_a_flag.nextElementSibling.classList.add("minimize");
 			league_b_flag.classList.add("minimize");
@@ -200,12 +191,7 @@ async function renderLeagues(side) {
 	updateElementsVisibility();
 
 	// get leagues
-	let leagues;
-	if (sideA.selected.country?.country_id == sideB.selected.country?.country_id) {
-		leagues = sideA.list.leagues || sideB.list.leagues;
-	} else {
-		leagues = await getLeagues(side.selected.country.country_id);
-	}
+	const leagues = await getLeagues(side.value.country.name);
 	if (!leagues) {
 		return;
 	}
@@ -214,16 +200,10 @@ async function renderLeagues(side) {
 	side.list.leagues = leagues;
 
 	/* render leagues */
-	const options = leagues.map((l) => {
-		let logo;
-		if (!l.league_logo) {
-			logo = "/src/images/unknown.svg";
-		} else {
-			logo = l.league_logo;
-		}
-		return `<div class="item" data-name="${l.league_name}" data-type="league" id="${l.league_id}" data-country-name="${l.country_name}">
-					<img src="${logo}" />
-					${l.league_name}
+	const options = leagues.map(({ league, country }) => {
+		return `<div class="item" data-name="${league.name}" data-type="league" id="${league.id}" data-code="${country.code}">
+					<img src="${league.logo}" />
+					${league.name}
 				</div>`;
 	});
 
@@ -236,8 +216,8 @@ async function renderLeagues(side) {
 	});
 
 	// unselect league and team
-	side.selected.league = undefined;
-	side.selected.team = undefined;
+	side.value.league = undefined;
+	side.value.team = undefined;
 
 	/* show leagues el */
 	side.leagueEl.hidden.el = false;
@@ -251,7 +231,7 @@ function resetLeague(side) {
 									League ${side.side.toUpperCase()}
 								</div>
 							</div>`;
-	side.selected.league = undefined;
+	side.value.league = undefined;
 }
 
 function selectLeague(evt, side) {
@@ -262,20 +242,14 @@ function selectLeague(evt, side) {
 	side.leagueEl.hidden.list = true;
 	updateElementsVisibility();
 
-	const league_id = evt.target.id;
-	const league = side.list.leagues.find((l) => l.league_id == league_id);
+	const leagueId = evt.target.id;
+	const leagueObj = side.list.leagues.find(({ league }) => league.id == leagueId).league;
 
-	let logo;
-	if (!league.league_logo) {
-		logo = "/src/images/unknown.svg";
-	} else {
-		logo = league.league_logo;
-	}
-	const bg = `background:url('${logo}') white center/contain no-repeat`;
+	const bg = `background:url('${leagueObj.logo}') white center/contain no-repeat`;
 	side.leagueEl.selected.innerHTML = `<div class="item">
 											<div class="info">
 												<div class="flag" style="${bg}"></div>
-												${league.league_name}
+												${leagueObj.name}
 												<div class="favourite">
 													<i class="fa-regular fa-heart"></i>
 													<!-- <i class="fa-solid fa-heart"></i> -->
@@ -284,16 +258,16 @@ function selectLeague(evt, side) {
 										</div>`;
 
 	// Save league
-	side.selected.league = league;
+	side.value.league = leagueObj;
 
 	// minimize league flags
 	minimizeFlags("league");
 
 	// hide report
-	report.classList.add("hide");
+	prediction.self.classList.add("hide");
 
 	resetTeam(side);
-	renderTeams(side, league_id);
+	renderTeams(side, leagueId);
 }
 
 function resetTeam(side) {
@@ -303,17 +277,12 @@ function resetTeam(side) {
 									Team ${side.side.toUpperCase()}
 								</div>
 							</div>`;
-	side.selected.team = undefined;
+	side.value.team = undefined;
 }
 
-async function renderTeams(side, league_id) {
+async function renderTeams(side, leagueId) {
 	// get teams by league id
-	let teams;
-	if (sideA.selected.league?.league_id == sideB.selected.league?.league_id) {
-		teams = sideA.list.teams || sideB.list.teams;
-	} else {
-		teams = await getTeams(side.selected.league.league_id);
-	}
+	const teams = await getTeams(leagueId);
 	if (!teams) {
 		return;
 	}
@@ -322,16 +291,10 @@ async function renderTeams(side, league_id) {
 	side.list.teams = teams;
 
 	/* render leagues */
-	const options = teams.map((t) => {
-		let logo;
-		if (!t.team_badge) {
-			logo = "/src/images/unknown.svg";
-		} else {
-			logo = t.team_badge;
-		}
-		return `<div class="item" data-name="${t.team_name}" data-type="team" id="${t.team_key}">
-					<img src="${logo}" />
-					${t.team_name}
+	const options = teams.map(({ team }) => {
+		return `<div class="item" data-name="${team.name}" data-type="team" id="${team.id}" data-code="${team.code}">
+					<img src="${team.logo}" />
+					${team.name}
 				</div>`;
 	});
 	side.teamEl.list.innerHTML = options.join("");
@@ -344,7 +307,7 @@ async function renderTeams(side, league_id) {
 	});
 
 	// unselect team
-	side.selected.team = undefined;
+	side.value.team = undefined;
 
 	// remove team from the other list
 	// the user can't select the same team twice
@@ -364,20 +327,14 @@ function selectTeam(evt, side) {
 	updateElementsVisibility();
 
 	// get selected team id
-	const team_id = evt.target.id;
-	const team = side.list.teams.find((t) => t.team_key == team_id);
+	const teamId = evt.target.id;
+	const teamObj = side.list.teams.find(({ team }) => team.id == teamId).team;
 
-	let logo;
-	if (!team.team_badge) {
-		logo = "/src/images/unknown.svg";
-	} else {
-		logo = team.team_badge;
-	}
-	const bg = `background:url('${logo}') white center/contain no-repeat`;
+	const bg = `background:url('${teamObj.logo}') white center/contain no-repeat`;
 	side.teamEl.selected.innerHTML = `<div class="item">
 										<div class="info">
 											<div class="flag" style="${bg}"></div>
-											${team.team_name}
+											${teamObj.name}
 											<div class="favourite">
 												<i class="fa-regular fa-heart"></i>
 												<!-- <i class="fa-solid fa-heart"></i> -->
@@ -386,18 +343,18 @@ function selectTeam(evt, side) {
 									</div>`;
 
 	// save selected team
-	side.selected.team = team;
+	side.value.team = teamObj;
 
 	// remove team from the other list
 	// the user can't select the same team twice
 	removeTeamFromList();
 
-	renderReport();
+	updatePrediction();
 }
 
 function removeTeamFromList() {
 	sideB.teamEl.list.childNodes.forEach((node) => {
-		if (node.id == sideA.selected.team?.team_key) {
+		if (node.id == sideA.value.team?.id && node.dataset.code == sideA.value.team?.code) {
 			node.classList.add("hide");
 		} else {
 			node.classList.remove("hide");
@@ -405,7 +362,7 @@ function removeTeamFromList() {
 	});
 
 	sideA.teamEl.list.childNodes.forEach((node) => {
-		if (node.id == sideB.selected.team?.team_key) {
+		if (node.id == sideB.value.team?.id && node.dataset.code == sideB.value.team?.code) {
 			node.classList.add("hide");
 		} else {
 			node.classList.remove("hide");
@@ -413,73 +370,87 @@ function removeTeamFromList() {
 	});
 }
 
-async function renderReport() {
-	if (!sideA.selected.team || !sideB.selected.team) return;
+async function updatePrediction() {
+	if (!sideA.value.team || !sideB.value.team) return;
 
 	// show prediction el
-	report.classList.remove("hide");
-	report.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+	prediction.self.classList.remove("hide");
+	prediction.self.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
 
-	// get teams data
-	let teamA = sideA.list.teams.find((t) => t.team_key == sideA.selected.team.team_key);
-	let teamB = sideB.list.teams.find((t) => t.team_key == sideB.selected.team.team_key);
+	const leagueA_Id = sideA.value.league.id,
+		teamA_Id = sideA.value.team.id;
+	const leagueB_Id = sideB.value.league.id,
+		teamB_Id = sideB.value.team.id;
 
-	let teamA_standings = await getStandings(sideA.selected.league.league_id);
-	let teamB_Standings;
+	console.log(leagueA_Id, teamA_Id);
+	console.log(leagueB_Id, teamB_Id);
 
-	if (sideA.selected.league.league_id == sideB.selected.league.league_id) {
-		teamB_standings = teamA_standings;
-	} else {
-		teamB_standings = await getStandings(sideB.selected.league.league_id);
-	}
+	const teamA = await getTeam(leagueA_Id, teamA_Id);
+	if (!teamA) return;
+	const teamA_Players = await getPlayers(leagueA_Id, teamA_Id);
+	if (!teamA_Players) return;
+	const teamA_Standings = await getStandings(leagueA_Id, teamA_Id);
+	if (!teamA_Standings) return;
+	const teamA_fixtures = await getFixutures(leagueA_Id, teamA_Id);
+	if (!teamA_fixtures) return;
 
-	teamA = {
-		...teamA,
-		...teamStandings(teamA_standings, teamA),
-		topScorer: topScorer(teamA.players),
-		color: "#a059e2",
-		red_cards: teamA.players.reduce((accum, currVal) => {
-			return accum + parseInt(currVal.player_red_cards);
-		}, 0),
-	};
-	teamB = {
-		...teamB,
-		...teamStandings(teamB_standings, teamB),
-		topScorer: topScorer(teamB.players),
-		color: "#43b3e7",
-		red_cards: teamB.players.reduce((accum, currVal) => {
-			return accum + parseInt(currVal.player_red_cards);
-		}, 0),
-	};
+	const teamB = await getTeam(leagueB_Id, teamB_Id);
+	if (!teamB) return;
+	const teamB_Players = await getPlayers(leagueB_Id, teamB_Id);
+	if (!teamB_Players) return;
+	const teamB_Standings = await getStandings(leagueB_Id, teamB_Id);
+	if (!teamB_Standings) return;
+	const teamB_fixtures = await getFixutures(leagueB_Id, teamB_Id);
+	if (!teamB_fixtures) return;
 
-	console.log(teamA);
-	console.log(teamB);
+	const teamA_TopScorer = topScorer(teamA_Players);
+	const teamB_TopScorer = topScorer(teamB_Players);
+
+	const teamA_Last_5_matches = last_5_matches(teamA_fixtures, teamA_Id);
+	const teamB_Last_5_matches = last_5_matches(teamB_fixtures, teamB_Id);
+
 	// render report
-	report.innerHTML = createReport(teamA, teamB);
+	const teamAObj = {
+		name: sideA.value.team.name,
+		topScorer: teamA_TopScorer,
+		rank: teamA_Standings.rank,
+		wins: teamA.fixtures.wins.total,
+		draws: teamA.fixtures.draws.total,
+		loses: teamA.fixtures.loses.total,
+		goals: {
+			for: teamA.goals.for.total.total,
+			against: teamA.goals.against.total.total,
+		},
+		color: "#a059e2",
+		cards: teamA.cards,
+		last_5_matches: teamA_Last_5_matches,
+	};
+	const teamBObj = {
+		name: sideB.value.team.name,
+		topScorer: teamB_TopScorer,
+		rank: teamB_Standings.rank,
+		wins: teamB.fixtures.wins.total,
+		draws: teamB.fixtures.draws.total,
+		loses: teamB.fixtures.loses.total,
+		goals: {
+			for: teamB.goals.for.total.total,
+			against: teamB.goals.against.total.total,
+		},
+		color: "#43b3e7",
+		cards: teamB.cards,
+		last_5_matches: teamB_Last_5_matches,
+	};
+	prediction.self.innerHTML = renderReport(teamAObj, teamBObj);
 
 	// render chart
-	report.innerHTML += `<div class="chart">
-							<div class="chart-header">WHO IS BETTER?</div>
-							<div class="chart-container">
-								<canvas id="football-chart"></canvas>
-							</div>
-						</div>`;
+	prediction.self.innerHTML += `<div class="chart">
+									<div class="chart-header">WHO IS BETTER?</div>
+									<div class="chart-container">
+										<canvas id="football-chart"></canvas>
+									</div>
+								</div>`;
 	const ctx = document.getElementById("football-chart");
-	renderChart(ctx, teamA, teamB);
-}
-function teamStandings(leagueStandings, team) {
-	if (leagueStandings.error == 404) {
-		alert(leagueStandings.message + " for " + team.team_name);
-		return {
-			overall_league_W: 0,
-			overall_league_L: 0,
-			overall_league_D: 0,
-			overall_league_GF: 0,
-			overall_league_GA: 0,
-			overall_league_position: "?",
-		};
-	}
-	return leagueStandings.find((t) => t.team_id === team.team_key);
+	renderChart(ctx, teamAObj, teamBObj);
 }
 function last_5_matches(fixtures, teamId) {
 	return fixtures
@@ -494,27 +465,19 @@ function last_5_matches(fixtures, teamId) {
 		)
 		.join("");
 }
-function createReport(teamA, teamB) {
-	if (!teamA.topScorer.player_image) {
-		teamA_TopScorer_Photo = "background:url('/src/images/unknown.svg') center/cover no-repeat";
-	} else {
-		teamA_TopScorer_Photo = `background:url('${teamA.topScorer.player_image}') center/cover no-repeat`;
-	}
-	if (!teamB.topScorer.player_image) {
-		teamB_TopScorer_Photo = "background:url('/src/images/unknown.svg') center/cover no-repeat";
-	} else {
-		teamB_TopScorer_Photo = `background:url('${teamB.topScorer.player_image}') center/cover no-repeat`;
-	}
+function renderReport(teamA, teamB) {
+	teamA_TopScorer_Photo = `background:url('${teamA.topScorer.photo}') center/cover no-repeat`;
+	teamB_TopScorer_Photo = `background:url('${teamB.topScorer.photo}') center/cover no-repeat`;
 
 	return `<div class="report">
 				<div class="report-header">REPORT</div>
 				<div class="teams">
 					<div class="team team-a">
 						<div class="color"></div>
-						${teamA.team_name}
+						${teamA.name}
 					</div>
 					<div class="team team-b">
-						${teamB.team_name}
+						${teamB.name}
 						<div class="color"></div>
 					</div>
 				</div>
@@ -524,20 +487,20 @@ function createReport(teamA, teamB) {
 						<div class="row">
 							<div class="col player">
 								<div class="photo" style="${teamA_TopScorer_Photo}"></div>
-								<div class="name">${teamA.topScorer.player_name}</div>
-								${teamA.topScorer.player_goals} Goals
+								<div class="name">${teamA.topScorer.name}</div>
+								${teamA.topScorer.goals} Goals
 							</div>
 							<div class="metric">TOP Scorer</div>
 							<div class="col player">
 								<div class="photo" style="${teamB_TopScorer_Photo}"></div>
-								<div class="name">${teamB.topScorer.player_name}</div>
-								${teamB.topScorer.player_goals} Goals
+								<div class="name">${teamB.topScorer.name}</div>
+								${teamA.topScorer.goals} Goals
 							</div>
 						</div>
 						<div class="row">
-							<div class="col rank">#${teamA.overall_league_position}</div>
+							<div class="col rank">#${teamA.rank}</div>
 							<div class="metric">Rank</div>
-							<div class="col rank">#${teamB.overall_league_position}</div>
+							<div class="col rank">#${teamB.rank}</div>
 						</div>
 						<div class="row">
 							<div class="col last-5-matches">
@@ -559,14 +522,14 @@ function renderChart(ctx, teamA, teamB) {
 		labels: labels,
 		datasets: [
 			{
-				label: teamA.team_name,
+				label: teamA.name,
 				data: [
-					teamA.overall_league_W,
-					teamA.overall_league_L,
-					teamA.overall_league_D,
-					teamA.overall_league_GF,
-					teamA.overall_league_GA,
-					teamA.red_cards,
+					teamA.wins,
+					teamA.loses,
+					teamA.draws,
+					teamA.goals.for,
+					teamA.goals.against,
+					getRedCards(teamA),
 				],
 				borderColor: teamA.color,
 				backgroundColor: `rgba(${teamA.color}, 0.5)`,
@@ -575,14 +538,14 @@ function renderChart(ctx, teamA, teamB) {
 				categoryPercentage: 0.5,
 			},
 			{
-				label: teamB.team_name,
+				label: teamB.name,
 				data: [
-					teamB.overall_league_W,
-					teamB.overall_league_L,
-					teamB.overall_league_D,
-					teamB.overall_league_GF,
-					teamB.overall_league_GA,
-					teamB.red_cards,
+					teamB.wins,
+					teamB.loses,
+					teamB.draws,
+					teamB.goals.for,
+					teamB.goals.against,
+					getRedCards(teamB),
 				],
 				borderColor: teamB.color,
 				backgroundColor: `rgba(${teamB.color}, 0.5)`,
@@ -616,16 +579,15 @@ function getRedCards(team) {
 	return sum;
 }
 function topScorer(players) {
-	if (players.length == 0) {
-		return {
-			player_image: "/src/images/unknown.svg",
-			player_name: "-",
-			player_goals: "-",
-		};
-	}
-	return players.sort((a, b) => {
-		return b.player_goals - a.player_goals;
-	})[0];
+	const top = players.sort((a, b) => {
+		return b.statistics[0].goals.total - a.statistics[0].goals.total;
+	});
+
+	return {
+		photo: top[0].player.photo,
+		name: top[0].player.firstname + " " + top[0].player.lastname,
+		goals: top[0].statistics[0].goals.total,
+	};
 }
 
 /* init app */

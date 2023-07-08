@@ -1,139 +1,64 @@
-const URI = "https://v3.football.api-sports.io";
-const options = {
-	method: "GET",
-	headers: {
-		"x-rapidapi-host": "v3.football.api-sports.io",
-		"x-rapidapi-key": "768506911489c55337ba6dce3ded28b9",
-	},
-};
+const URI = "https://apiv3.apifootball.com/?action=";
+const api_key = "dc793d9dad1eb23ea1e9fb02e3b3d43540948658b12021c5db89e77c2f9acc2a";
 
 // get all countries
 async function getCountries() {
-	const endpoint = `${URI}/countries`;
-	const local = "/data/countries.json";
+	const endpoint = `${URI}get_countries&APIkey=${api_key}`;
 
-	const response = await fetch(local);
+	const response = await fetch(endpoint);
 	const data = await response.json();
 
-	const errorMsg = "Sorry we couldn't get the countries list!";
-	return errorHandler(data.errors, errorMsg, data.response);
+	return data;
 }
 
 // get all leagues by country
-async function getLeagues(countryName) {
-	const endpoint = `${URI}/leagues
-						?country=${countryName}
-						&season=${SEASON - 1}`;
-	const local = "/data/leagues.json";
+async function getLeagues(country_id) {
+	console.log("getting leagues");
+	const endpoint = `${URI}get_leagues
+						&country_id=${country_id}
+						&APIkey=${api_key}`;
 
-	const response = await fetch(endpoint, options);
+	const response = await fetch(endpoint);
 	const data = await response.json();
 
-	const errorMsg = "Sorry we couldn't get the leagues list for the selected country!";
-	return errorHandler(data.errors, errorMsg, data.response);
+	return data;
 }
 
 // get all teams by league id
-async function getTeams(leagueId) {
-	const endpoint = `${URI}/teams
-						?league=${leagueId}
-						&season=${SEASON - 1}`;
-	const local = "/data/teams.json";
+async function getTeams(league_id) {
+	console.log("getting teams");
+	const endpoint = `${URI}get_teams
+						&league_id=${league_id}
+						&APIkey=${api_key}`;
 
-	const response = await fetch(endpoint, options);
+	const response = await fetch(endpoint);
 	const data = await response.json();
 
-	const errorMsg = "Sorry we couldn't get the teams list for the selected country!";
-	return errorHandler(data.errors, errorMsg, data.response);
-}
-
-// get team by league id and team id
-async function getTeam(leagueId, teamId) {
-	const endpoint = `${URI}/teams/statistics
-						?league=${leagueId}
-						&season=${SEASON - 1}
-						&team=${teamId}`;
-	const local = "/data/team.json";
-
-	const response = await fetch(endpoint, options);
-	const data = await response.json();
-
-	const errorMsg = "Sorry we couldn't get your team data!";
-	return errorHandler(data.errors, errorMsg, data.response);
-}
-// get all team players with stats
-async function getPlayers(leagueId, teamId) {
-	let page = 1;
-	let players = [];
-
-	let endpoint = `${URI}/players
-						?league=${leagueId}
-						&season=${SEASON - 1}
-						&team=${teamId}
-						&page=${page}`;
-
-	const response = await fetch(endpoint, options);
-	const data = await response.json();
-
-	const totalpages = data.paging.total;
-	players = data.response;
-
-	for (page = 2; page <= totalpages; page++) {
-		endpoint = `${URI}/players
-						?league=${leagueId}
-						&season=${SEASON - 1}
-						&team=${teamId}
-						&page=${page}`;
-
-		const response = await fetch(endpoint, options);
-		const data = await response.json();
-		players = players.concat(data.response);
-	}
-
-	/*
-	const local = "/data/players.json";
-	const response = await fetch(local);
-	const data = await response.json();
-	const players = data; */
-
-	const errorMsg = "Sorry we couldn't get your team data!";
-	return errorHandler(data.errors, errorMsg, players);
+	return data;
 }
 
 /* get team standings */
-async function getStandings(leagueId, teamId) {
-	const endpoint = `${URI}/standings
-						?league=${leagueId}
-						&season=${SEASON - 1}
-						&team=${teamId}`;
-	const local = "/data/standings.json";
+async function getStandings(league_id) {
+	const endpoint = `${URI}get_standings
+						&league_id=${league_id}
+						&APIkey=${api_key}`;
 
-	const response = await fetch(endpoint, options);
+	const response = await fetch(endpoint);
 	const data = await response.json();
 
-	const errorMsg = "Sorry we couldn't get your team data!";
-	return errorHandler(data.errors, errorMsg, data.response[0].league.standings[0][0]);
+	return data;
 }
 
-/* get fixuters by team id */
-async function getFixutures(leagueId, teamId) {
-	const endpoint = `${URI}/fixtures
-						?league=${leagueId}
-						&season=${SEASON - 1}
-						&team=${teamId}`;
-	const local = "/data/fixtures.json";
+/* get fixtures */
+async function getFixutures(team_id) {
+	const endpoint = `${URI}get_events
+						&team_id=${team_id}
+						&from=2023-01-00
+						&to=2023-07-08
+						&APIkey=${api_key}`;
 
-	const response = await fetch(endpoint, options);
+	const response = await fetch(endpoint);
 	const data = await response.json();
 
-	const errorMsg = "Sorry we couldn't get your team data!";
-	return errorHandler(data.errors, errorMsg, data.response);
-}
-
-function errorHandler(errors, errorMsg, succesValue) {
-	if (Object.values(errors).length > 0) {
-		alert(errorMsg);
-		return false;
-	}
-	return succesValue;
+	return data;
 }

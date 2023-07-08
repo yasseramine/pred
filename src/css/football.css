@@ -161,9 +161,9 @@
 }
 
 /** PREDICTION **/
-.football .prediction {
+.football .report {
 }
-.football .prediction .vs {
+.football .report .vs {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -172,16 +172,16 @@
 
 	background-color: var(--dark-theme-bg-sec-color);
 }
-.football .prediction .vs span {
+.football .report .vs span {
 	font-size: 1.3rem;
 }
-.football .prediction .vs .team {
+.football .report .vs .team {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.football .prediction .vs .team .logo {
+.football .report .vs .team .logo {
 	width: 5rem;
 	height: 5rem;
 
@@ -192,7 +192,7 @@
 
 	position: relative;
 }
-.football .prediction .vs .team .logo img {
+.football .report .vs .team .logo img {
 	position: absolute;
 
 	top: 50%;
@@ -201,58 +201,58 @@
 	width: 4rem;
 	height: 4rem;
 }
-.football .prediction .vs .team .color {
+.football .report .vs .team .color {
 	margin-top: 0.75rem;
 	width: 5rem;
 	height: 0.5rem;
 
 	border-radius: 0.25rem;
 }
-.football .prediction .vs .team-a .color {
+.football .report .vs .team-a .color {
 	background-color: var(--dark-theme-team-a-color);
 }
-.football .prediction .vs .team-b .color {
+.football .report .vs .team-b .color {
 	background-color: var(--dark-theme-team-b-color);
 }
 /* report */
-.football .prediction .report {
+.football .report .report {
 	padding: 1.5rem 3rem;
 }
-.football .prediction .report .report-header,
-.football .prediction .chart .chart-header {
+.football .report .report .report-header,
+.football .report .chart .chart-header {
 	display: flex;
 	justify-content: center;
 	font-size: 1.5rem;
 }
-.football .prediction .report .teams {
+.football .report .report .teams {
 	display: flex;
 	justify-content: space-between;
 	padding: 0.5rem 0;
 }
-.football .prediction .report .teams .team {
+.football .report .report .teams .team {
 	display: flex;
 	align-items: center;
 }
-.football .prediction .report .teams .team .color {
+.football .report .report .teams .team .color {
 	width: 1.25rem;
 	height: 1.25rem;
 
 	border-radius: 0.25rem;
 }
-.football .prediction .report .teams .team-a .color {
+.football .report .report .teams .team-a .color {
 	margin-right: 0.5rem;
 	background-color: var(--dark-theme-team-a-color);
 }
-.football .prediction .report .teams .team-b .color {
+.football .report .report .teams .team-b .color {
 	margin-left: 0.5rem;
 	background-color: var(--dark-theme-team-b-color);
 }
 /* metric */
-.football .prediction .metrics .metrics-header {
+.football .report .metrics .metrics-header {
 	display: flex;
 	justify-content: center;
 }
-.football .prediction .metrics .data .row {
+.football .report .metrics .data .row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -261,7 +261,7 @@
 
 	border-bottom: 1px solid var(--dark-theme-bg-sec-color);
 }
-.football .prediction .metrics .data .row .metric {
+.football .report .metrics .data .row .metric {
 	flex: 1;
 	display: flex;
 	align-items: center;
@@ -269,7 +269,7 @@
 
 	text-align: center;
 }
-.football .prediction .metrics .data .row .col {
+.football .report .metrics .data .row .col {
 	flex: 1;
 
 	display: flex;
@@ -280,15 +280,15 @@
 
 	padding: 0 0.25rem;
 }
-.football .prediction .metrics .data .row .player {
+.football .report .metrics .data .row .player {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.football .prediction .metrics .data .row .player .name {
+.football .report .metrics .data .row .player .name {
 	text-align: center;
 }
-.football .prediction .metrics .data .row .player .photo {
+.football .report .metrics .data .row .player .photo {
 	width: 2.25rem;
 	height: 2.25rem;
 
@@ -297,15 +297,15 @@
 
 	margin-bottom: 0.25rem;
 }
-.football .prediction .chart {
+.football .report .chart {
 	padding: 0.5rem 2rem;
 }
-.football .prediction .chart .chart-container {
+.football .report .chart .chart-container {
 	margin-top: 1rem;
 }
-.football .prediction .metrics .data .row .last-5-matches .win,
-.football .prediction .metrics .data .row .last-5-matches .lost,
-.football .prediction .metrics .data .row .last-5-matches .draw {
+.football .report .metrics .data .row .last-5-matches .win,
+.football .report .metrics .data .row .last-5-matches .lost,
+.football .report .metrics .data .row .last-5-matches .draw {
 	width: 2rem;
 	height: 2rem;
 
@@ -319,13 +319,13 @@
 	align-items: center;
 	justify-content: center;
 }
-.football .prediction .metrics .data .row .last-5-matches .win {
+.football .report .metrics .data .row .last-5-matches .win {
 	background-color: #5bb64d;
 }
-.football .prediction .metrics .data .row .last-5-matches .lost {
+.football .report .metrics .data .row .last-5-matches .lost {
 	background-color: #d85555;
 }
-.football .prediction .metrics .data .row .last-5-matches .draw {
+.football .report .metrics .data .row .last-5-matches .draw {
 	background-color: #b2b2b2;
 }
 /* RESPONSIVE */
