@@ -1,7 +1,6 @@
 /****** FOOTBALL PAGE *******/
 .football {
-	min-height: calc(50dvh - var(--header-height));
-	max-height: calc(100dvh - var(--header-height));
+	height: calc(100dvh - var(--header-height));
 	overflow-y: auto;
 }
 .football .header {
@@ -329,6 +328,13 @@
 }
 .football .report .metrics .data .row .last-5-matches .draw {
 	background-color: #b2b2b2;
+}
+/* football errors */
+.football .error {
+	width: 100%;
+	background-color: var(--navbar-text-color);
+
+	padding: 1rem;
 }
 /* RESPONSIVE */
 /* Extra small devices (phones, 600px and down) */

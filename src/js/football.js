@@ -427,6 +427,10 @@ async function renderReport() {
 	report.classList.remove("hide");
 	report.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
 
+	// handle errors
+	let errorA = false,
+		errorB = false;
+
 	// get teams data
 	let teamA = sideA.list.teams.find((t) => t.team_key == sideA.selected.team.team_key);
 	let teamB = sideB.list.teams.find((t) => t.team_key == sideB.selected.team.team_key);
@@ -442,6 +446,16 @@ async function renderReport() {
 
 	const fixturesA = await getFixutures(sideA.selected.league.league_id, teamA.team_key);
 	const fixturesB = await getFixutures(sideB.selected.league.league_id, teamB.team_key);
+
+	// handle errors
+	if (fixturesA.error) {
+		report.innerHTML = `<div class="error"><p>We're SORRY!</p><p>The team "${sideA.selected.team.team_name}" data is not available<p><p>Please try again with a different team!</p></div>`;
+		return;
+	}
+	if (fixturesB.error) {
+		report.innerHTML = `<div class="error"><p>We're SORRY!</p><p>The team "${sideB.selected.team.team_name}" data is not available<p><p>Please try again with a different team!</p></div>`;
+		return;
+	}
 
 	teamA = {
 		...teamA,
