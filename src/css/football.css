@@ -303,6 +303,7 @@
 }
 .football .report .chart .chart-container {
 	margin-top: 1rem;
+	min-height: 300px;
 }
 .football .report .metrics .data .row .last-5-matches .win,
 .football .report .metrics .data .row .last-5-matches .lost,

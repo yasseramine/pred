@@ -445,6 +445,7 @@ async function renderReport() {
 			return accum + parseInt(currVal.player_red_cards);
 		}, 0),
 		last_5_matches: last_5_matches(fixturesA, teamA.team_key),
+		injuries: getInjuries(teamA),
 	};
 	teamB = {
 		...teamB,
@@ -455,6 +456,7 @@ async function renderReport() {
 			return accum + parseInt(currVal.player_red_cards);
 		}, 0),
 		last_5_matches: last_5_matches(fixturesB, teamB.team_key),
+		injuries: getInjuries(teamB),
 	};
 
 	// render report
@@ -548,7 +550,7 @@ function createReport(teamA, teamB) {
 						</div>
 						<div class="row">
 							<div class="col rank">#${teamA.overall_league_position}</div>
-							<div class="metric">Rank</div>
+							<div class="metric">Position in league</div>
 							<div class="col rank">#${teamB.overall_league_position}</div>
 						</div>
 						<div class="row">
@@ -565,7 +567,17 @@ function createReport(teamA, teamB) {
 			</div>`;
 }
 function renderChart(ctx, teamA, teamB) {
-	const labels = ["Wins", "Loses", "Draws", "Goals for", "Goals aginst", "ٌRed Cards"];
+	const labels = [
+		"Wins",
+		"Loses",
+		"Draws",
+		"Goals for",
+		"Goals aginst",
+		"ٌRed Cards",
+		"Injuries",
+	];
+
+	console.log(teamA);
 
 	const data = {
 		labels: labels,
@@ -579,6 +591,7 @@ function renderChart(ctx, teamA, teamB) {
 					teamA.overall_league_GF,
 					teamA.overall_league_GA,
 					teamA.red_cards,
+					teamA.injuries,
 				],
 				borderColor: teamA.color,
 				backgroundColor: `rgba(${teamA.color}, 0.5)`,
@@ -595,6 +608,7 @@ function renderChart(ctx, teamA, teamB) {
 					teamB.overall_league_GF,
 					teamB.overall_league_GA,
 					teamB.red_cards,
+					teamB.injuries,
 				],
 				borderColor: teamB.color,
 				backgroundColor: `rgba(${teamB.color}, 0.5)`,
@@ -612,6 +626,7 @@ function renderChart(ctx, teamA, teamB) {
 				stacked: true,
 			},
 			responsive: true,
+			maintainAspectRatio: false,
 		},
 	};
 
@@ -638,6 +653,15 @@ function topScorer(players) {
 	return players.sort((a, b) => {
 		return b.player_goals - a.player_goals;
 	})[0];
+}
+function getInjuries(team) {
+	sum = 0;
+	team.players.forEach((p) => {
+		if (p.player_injured != "No") {
+			sum++;
+		}
+	});
+	return sum;
 }
 
 /* init app */
