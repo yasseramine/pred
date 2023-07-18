@@ -163,7 +163,7 @@ header .menu #nav-icon.open span:nth-child(3) {
 }
 
 /* LOGO */
-.logo {
+header .logo {
 	display: flex;
 	align-items: center;
 
@@ -171,7 +171,7 @@ header .menu #nav-icon.open span:nth-child(3) {
 	font-size: 1.2rem;
 	font-weight: bolder;
 }
-.logo img {
+header .logo img {
 	width: 2.5rem;
 	height: 2.5rem;
 	margin-right: 0.25rem;
@@ -314,52 +314,81 @@ nav ul li a i {
 .container .main,
 .container .right {
 	background-color: rgba(var(--navbar-bg-color-rgb), var(--opacity));
-	margin: 0.5rem;
+	margin: 1rem 0.5rem;
 	border-radius: 0.5rem;
 }
-/* FAVOURITES */
-.favourites .list-name {
+/* live matches */
+.livematches {
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	overflow: auto;
+
+	max-height: calc(100dvh - var(--header-height));
+}
+.livematches .matches {
+	width: 100%;
+}
+.livematches .matches .league-matches {
+	margin: 3rem 0;
+}
+.livematches .matches .match {
+	width: 100%;
+}
+.livematches .matches .league {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	font-size: 1.1rem;
-	padding: 1rem 1.5rem;
-	cursor: pointer;
+	margin: 0.5rem;
 }
-.favourites .list {
-	color: var(--dark-theme-secondary-text-color);
-}
-.favourites .list ul {
-	margin: 0;
-	padding: 0 0.75rem;
-}
-.favourites .list ul li {
-	list-style-type: none;
-	display: flex;
-	align-items: center;
-	margin: 0.5rem 0;
-	cursor: pointer;
-}
-.favourites .list ul li:hover {
-	color: var(--dark-theme-secondary-hover-color);
-}
-.favourites .list ul li img {
-	width: 1.6rem;
-	height: 1.6rem;
+.livematches .matches .league .logo img {
+	border-radius: 50%;
+	width: 2.5rem;
+	height: 2.5rem;
 	margin-right: 0.5rem;
 }
-/* favourite list collapse */
-.favourites .list {
-	max-height: 0;
-	overflow: hidden;
-	transition: max-height 300ms ease-out;
+.livematches .matches .match {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-.favourites .list-name .drop-down {
-	transform: rotate(0deg);
-	transition: all 300ms ease-in-out;
+.livematches .matches .match .status {
+	padding: 0.25rem;
+	color: var(--dark-theme-primary-text-color);
+	border: 0.25px solid var(--dark-theme-primary-text-color);
+	border-radius: 0.25rem;
+	min-width: 4.5rem;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-.favourites .list-name .drop-down.rotate {
-	transform: rotate(-180deg);
+.livematches .matches .match .result {
+	flex: 1;
+	display: flex;
+	align-items: center;
+
+	padding: 0.5rem 0;
+}
+.livematches .matches .match .result .score {
+	margin: 0 0.5rem;
+}
+.livematches .matches .match .result img {
+	border-radius: 50%;
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: 0 0.5rem;
+}
+.livematches .matches .match .result .home-team,
+.livematches .matches .match .result .away-team {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.livematches .matches .match .result .name {
+	text-align: center;
 }
 
 /* TRENDING */
@@ -694,7 +723,7 @@ nav ul li a i {
 	/* container */
 	.container {
 		grid-template-areas:
-			"l l l m m m m m m m m m"
+			"l l l l l l m m m m m m"
 			"r r r r r r r r r r r r";
 	}
 
@@ -731,10 +760,10 @@ nav ul li a i {
 	}
 }
 
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
+/* Large devices (laptops/desktops, 1100px and up) */
+@media only screen and (min-width: 1100px) {
 	.container {
-		grid-template-areas: "l l l m m m m m m r r r";
+		grid-template-areas: "l l l l l m m m m r r r";
 	}
 	/* trnding */
 	.trending .main {
@@ -762,6 +791,13 @@ nav ul li a i {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 	.container {
-		grid-template-areas: "l l m m m m m m r r r r";
+		grid-template-areas: "l l l l l m m m m r r r";
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1450px and up) */
+@media only screen and (min-width: 1450px) {
+	.container {
+		grid-template-areas: "l l l l m m m m m r r r";
 	}
 }

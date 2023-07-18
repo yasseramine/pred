@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="/src/fontawesome-free-6.4.0-web/css/fontawesome.min.css" />
 		<link rel="stylesheet" href="/src/fontawesome-free-6.4.0-web/css/solid.min.css" />
 		<link rel="stylesheet" href="/src/fontawesome-free-6.4.0-web/css/regular.min.css" />
+
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 		<script src="/src/js/fetchAPI.js" defer></script>
 		<script src="/src/js/football.js" defer></script>
@@ -23,6 +24,7 @@
 		<script src="/src/js/blogger.js" defer></script>
 		<script src="/src/js/themeToggler.js" defer></script>
 		<script src="/src/js/fav-list.js" defer></script>
+		<script src="/src/js/livescore.js" defer></script>
 	</head>
 	<body>
 		<div class="app-container">
@@ -68,67 +70,9 @@
 				</div>
 			</header>
 			<div class="container">
-				<div class="left favourites">
-					<div id="leagues">
-						<div class="list-name">
-							<div>My Leagues</div>
-							<div class="drop-down">
-								<i class="fa-solid fa-angle-down"></i>
-							</div>
-						</div>
-						<div class="list">
-							<ul>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									La liga
-								</li>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									Premier league
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div id="teams">
-						<div class="list-name">
-							<div>My Teams</div>
-							<div class="drop-down">
-								<i class="fa-solid fa-angle-down"></i>
-							</div>
-						</div>
-						<div class="list">
-							<ul>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									La liga
-								</li>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									Premier league
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div id="countries">
-						<div class="list-name">
-							<div>Countries</div>
-							<div class="drop-down">
-								<i class="fa-solid fa-angle-down"></i>
-							</div>
-						</div>
-						<div class="list">
-							<ul>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									La liga
-								</li>
-								<li>
-									<img src="/src/images/logo.png" alt="La Liga" />
-									Premier league
-								</li>
-							</ul>
-						</div>
-					</div>
+				<div class="left livematches">
+					<h3>Live Matches</h3>
+					<div class="matches"></div>
 				</div>
 				<div class="main">
 					<div class="football">

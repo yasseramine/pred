@@ -1,6 +1,7 @@
 /****** FOOTBALL PAGE *******/
 .football {
-	height: calc(100dvh - var(--header-height));
+	min-height: calc(50dvh - var(--header-height));
+	max-height: calc(100dvh - var(--header-height));
 	overflow-y: auto;
 }
 .football .header {
