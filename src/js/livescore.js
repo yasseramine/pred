@@ -108,29 +108,44 @@ function renderMatches() {
 				team_home_badge = "/src/images/unknown.svg";
 			}
 
+			let match_status = match.match_status;
+			if (!match.match_status) {
+				match_status = `<div class="status">Finished</div>`;
+			} else {
+				if (Number.isInteger(parseInt(match_status))) {
+					if (parseInt(match_status) >= 60) {
+						match_status = `<div class="status red">${match_status}'</div>`;
+					} else {
+						match_status = `<div class="status">${match_status}'</div>`;
+					}
+				} else {
+					match_status = `<div class="status">${match_status}</div>`;
+				}
+			}
+
 			return `<div class="match">
                         <div class="result">
                             <div class="home-team">
-                                <div class="logo">
+                                <div class="name">${match.match_hometeam_name}</div>
+								<div class="logo">
 									<picture>
 										<source srcset="${team_home_badge}" />
 										<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
 									</picture>
                                 </div>
-                                <div class="name">${match.match_hometeam_name}</div>
                             </div>
                             <div class="score">${match.match_hometeam_score} - ${match.match_awayteam_score}</div>
                             <div class="away-team">
-                                <div class="name">${match.match_awayteam_name}</div>
-                                <div class="logo">
+								<div class="logo">
 									<picture>
 										<source srcset="${team_away_badge}" />
 										<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
 									</picture>
-                                </div>
+								</div>
+                                <div class="name">${match.match_awayteam_name}</div>
                             </div>
                         </div>
-                        <div class="status">${match.match_status}</div>
+                        ${match_status}
                     </div>
                             `;
 		});

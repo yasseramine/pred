@@ -334,9 +334,6 @@ nav ul li a i {
 .livematches .matches .league-matches {
 	margin: 3rem 0;
 }
-.livematches .matches .match {
-	width: 100%;
-}
 .livematches .matches .league {
 	display: flex;
 	align-items: center;
@@ -349,14 +346,26 @@ nav ul li a i {
 	margin-right: 0.5rem;
 }
 .livematches .matches .match {
+	width: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding: 0.25rem;
+	border-radius: 0.5rem;
+}
+.livematches .matches .match:hover {
+	background-color: var(--dark-theme-primary-text-color);
+	color: var(--navbar-bg-color);
+}
+.livematches .matches .match:hover > .status {
+	color: var(--navbar-bg-color);
+	border-color: var(--navbar-bg-color);
 }
 .livematches .matches .match .status {
 	font-size: 0.75rem;
 	padding: 0.25rem;
-	margin-left: 0.5rem;
+	margin: 0 0.5rem;
 	color: var(--dark-theme-primary-text-color);
 	border: 0.25px solid var(--dark-theme-primary-text-color);
 	border-radius: 0.25rem;
@@ -366,8 +375,12 @@ nav ul li a i {
 	justify-content: center;
 	align-items: center;
 }
+.livematches .matches .match .status.red {
+	color: var(--dark-theme-bg-pri-color);
+	border: 0.25px solid var(--dark-theme-bg-pri-color);
+}
 .livematches .matches .match .result {
-	flex: 1;
+	width: 100%;
 	display: flex;
 	align-items: center;
 
@@ -384,16 +397,18 @@ nav ul li a i {
 	margin: 0 0.5rem;
 }
 .livematches .matches .match .result .home-team {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: start;
-}
-.livematches .matches .match .result .away-team {
+	width: 100%;
 	flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: end;
+}
+.livematches .matches .match .result .away-team {
+	width: 100%;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: start;
 }
 .livematches .matches .match .result .name {
 	text-align: center;
@@ -799,7 +814,7 @@ nav ul li a i {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 	.container {
-		grid-template-areas: "l l l l l m m m m r r r";
+		grid-template-areas: "l l l l m m m m m r r r";
 	}
 }
 

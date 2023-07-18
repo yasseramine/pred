@@ -1,6 +1,3 @@
-const URI = "https://apiv3.apifootball.com/?action=";
-const api_key = "dc793d9dad1eb23ea1e9fb02e3b3d43540948658b12021c5db89e77c2f9acc2a";
-
 // get all countries
 async function getCountries() {
 	const endpoint = `${URI}get_countries&APIkey=${api_key}`;
