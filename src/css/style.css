@@ -354,11 +354,13 @@ nav ul li a i {
 	align-items: center;
 }
 .livematches .matches .match .status {
+	font-size: 0.75rem;
 	padding: 0.25rem;
+	margin-left: 0.5rem;
 	color: var(--dark-theme-primary-text-color);
 	border: 0.25px solid var(--dark-theme-primary-text-color);
 	border-radius: 0.25rem;
-	min-width: 4.5rem;
+	min-width: 4rem;
 
 	display: flex;
 	justify-content: center;
@@ -373,6 +375,7 @@ nav ul li a i {
 }
 .livematches .matches .match .result .score {
 	margin: 0 0.5rem;
+	min-width: 2.25rem;
 }
 .livematches .matches .match .result img {
 	border-radius: 50%;
@@ -380,12 +383,17 @@ nav ul li a i {
 	height: 1.5rem;
 	margin: 0 0.5rem;
 }
-.livematches .matches .match .result .home-team,
+.livematches .matches .match .result .home-team {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+}
 .livematches .matches .match .result .away-team {
 	flex: 1;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: end;
 }
 .livematches .matches .match .result .name {
 	text-align: center;

@@ -156,6 +156,7 @@ function selectCountry(evt, side, countries) {
 
 	// reset league
 	resetLeague(side);
+
 	// hide teams el
 	side.teamEl.hidden.el = true;
 	updateElementsVisibility();
@@ -199,6 +200,13 @@ async function renderLeagues(side) {
 	side.teamEl.hidden.el = true;
 	updateElementsVisibility();
 
+	/* show leagues el */
+	side.leagueEl.hidden.el = false;
+	updateElementsVisibility();
+
+	// loading
+	side.leagueEl.list.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+
 	// get leagues
 	let leagues;
 	if (sideA.selected.country?.country_id == sideB.selected.country?.country_id) {
@@ -238,10 +246,6 @@ async function renderLeagues(side) {
 	// unselect league and team
 	side.selected.league = undefined;
 	side.selected.team = undefined;
-
-	/* show leagues el */
-	side.leagueEl.hidden.el = false;
-	updateElementsVisibility();
 }
 
 function resetLeague(side) {
@@ -306,7 +310,14 @@ function resetTeam(side) {
 	side.selected.team = undefined;
 }
 
-async function renderTeams(side, league_id) {
+async function renderTeams(side) {
+	/* show teams el */
+	side.teamEl.hidden.el = false;
+	updateElementsVisibility();
+
+	// loading
+	side.teamEl.list.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+
 	// get teams by league id
 	let teams;
 	if (sideA.selected.league?.league_id == sideB.selected.league?.league_id) {
@@ -349,10 +360,6 @@ async function renderTeams(side, league_id) {
 	// remove team from the other list
 	// the user can't select the same team twice
 	removeTeamFromList();
-
-	/* show teams el */
-	side.teamEl.hidden.el = false;
-	updateElementsVisibility();
 }
 
 function selectTeam(evt, side) {
@@ -576,8 +583,6 @@ function renderChart(ctx, teamA, teamB) {
 		"ٌRed Cards",
 		"Injuries",
 	];
-
-	console.log(teamA);
 
 	const data = {
 		labels: labels,
