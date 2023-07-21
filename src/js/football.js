@@ -457,11 +457,11 @@ async function renderReport() {
 
 	// handle errors
 	if (fixturesA.error) {
-		report.innerHTML = `<div class="error"><p>We're SORRY!</p><p>The team "${sideA.selected.team.team_name}" data is not available<p><p>Please try again with a different team!</p></div>`;
+		teamDataError(sideA.selected.team.team_name);
 		return;
 	}
 	if (fixturesB.error) {
-		report.innerHTML = `<div class="error"><p>We're SORRY!</p><p>The team "${sideB.selected.team.team_name}" data is not available<p><p>Please try again with a different team!</p></div>`;
+		teamDataError(sideB.selected.team.team_name);
 		return;
 	}
 
@@ -502,8 +502,8 @@ async function renderReport() {
 	renderChart(ctx, teamA, teamB);
 }
 function teamStandings(leagueStandings, team) {
-	if (leagueStandings.error == 404) {
-		alert(leagueStandings.message + " for " + team.team_name);
+	if (leagueStandings.error) {
+		teamDataError(team.team_name);
 		return {
 			overall_league_W: 0,
 			overall_league_L: 0,
@@ -689,7 +689,10 @@ function getInjuries(team) {
 	});
 	return sum;
 }
-
+function teamDataError(team_name) {
+	const msg = `<div class="error"><p>We're SORRY!</p><p>The team "${team_name}" data is not available<p><p>Please try again with a different team!</p></div>`;
+	report.insertAdjacentHTML("beforebegin", msg);
+}
 /* init app */
 async function initCountries() {
 	// loading ...
