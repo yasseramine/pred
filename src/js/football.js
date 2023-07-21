@@ -5,6 +5,9 @@ const TEAMS = "teams";
 const TEAM = "team";
 const SEASON = new Date().getFullYear();
 
+// compoenents
+let loadingComponent = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+
 // CREATE AND SELECT ALL ELEMENTS
 function SideElementSelector(side) {
 	this.side = side;
@@ -95,14 +98,17 @@ function updateListVisibility(el) {
 function renderCountries(countries) {
 	const options = countries.map((c) => {
 		if (c) {
-			let logo;
+			/* let logo;
 			if (!c.country_logo) {
 				logo = "/src/images/unknown.svg";
 			} else {
 				logo = c.country_logo;
-			}
+			} */
 			return `<div class="item" data-name="${c.country_name}" data-type="country" id="${c.country_id}">
-					<img src="${logo}" />
+					<picture>
+						<source srcset="${c.country_logo}" />
+						<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
+					</picture>
 					${c.country_name}
 				</div>`;
 		}
@@ -205,7 +211,7 @@ async function renderLeagues(side) {
 	updateElementsVisibility();
 
 	// loading
-	side.leagueEl.list.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+	side.leagueEl.list.innerHTML = loadingComponent;
 
 	// get leagues
 	let leagues;
@@ -223,14 +229,17 @@ async function renderLeagues(side) {
 
 	/* render leagues */
 	const options = leagues.map((l) => {
-		let logo;
+		/* let logo;
 		if (!l.league_logo) {
 			logo = "/src/images/unknown.svg";
 		} else {
 			logo = l.league_logo;
-		}
+		} */
 		return `<div class="item" data-name="${l.league_name}" data-type="league" id="${l.league_id}" data-country-name="${l.country_name}">
-					<img src="${logo}" />
+					<picture>
+						<source srcset="${l.league_logo}" />
+						<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
+					</picture>
 					${l.league_name}
 				</div>`;
 	});
@@ -334,14 +343,17 @@ async function renderTeams(side) {
 
 	/* render leagues */
 	const options = teams.map((t) => {
-		let logo;
+		/* let logo;
 		if (!t.team_badge) {
 			logo = "/src/images/unknown.svg";
 		} else {
 			logo = t.team_badge;
-		}
+		} */
 		return `<div class="item" data-name="${t.team_name}" data-type="team" id="${t.team_key}">
-					<img src="${logo}" />
+					<picture>
+						<source srcset="${t.team_badge}" />
+						<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
+					</picture>
 					${t.team_name}
 				</div>`;
 	});
@@ -425,11 +437,7 @@ async function renderReport() {
 
 	// show prediction el
 	report.classList.remove("hide");
-	report.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
-
-	// handle errors
-	let errorA = false,
-		errorB = false;
+	report.innerHTML = loadingComponent;
 
 	// get teams data
 	let teamA = sideA.list.teams.find((t) => t.team_key == sideA.selected.team.team_key);
@@ -530,17 +538,6 @@ function last_5_matches(fixtures, team_id) {
 		.join("");
 }
 function createReport(teamA, teamB) {
-	if (!teamA.topScorer.player_image) {
-		teamA_TopScorer_Photo = "background:url('/src/images/unknown.svg') center/cover no-repeat";
-	} else {
-		teamA_TopScorer_Photo = `background:url('${teamA.topScorer.player_image}') center/cover no-repeat`;
-	}
-	if (!teamB.topScorer.player_image) {
-		teamB_TopScorer_Photo = "background:url('/src/images/unknown.svg') center/cover no-repeat";
-	} else {
-		teamB_TopScorer_Photo = `background:url('${teamB.topScorer.player_image}') center/cover no-repeat`;
-	}
-
 	return `<div class="report">
 				<div class="report-header">REPORT</div>
 				<div class="teams">
@@ -558,13 +555,23 @@ function createReport(teamA, teamB) {
 					<div class="data">
 						<div class="row">
 							<div class="col player">
-								<div class="photo" style="${teamA_TopScorer_Photo}"></div>
+								<div class="photo">
+									<picture>
+										<source srcset="${teamA.topScorer.player_image}" />
+										<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
+									</picture>
+								</div>
 								<div class="name">${teamA.topScorer.player_name}</div>
 								${teamA.topScorer.player_goals} Goals
 							</div>
 							<div class="metric">TOP Scorer</div>
 							<div class="col player">
-								<div class="photo" style="${teamB_TopScorer_Photo}"></div>
+								<div class="photo">
+									<picture>
+										<source srcset="${teamB.topScorer.player_image}" />
+										<img src="/src/images/unknown.svg" onerror="onError.call(this)" />
+									</picture>
+								</div>
 								<div class="name">${teamB.topScorer.player_name}</div>
 								${teamB.topScorer.player_goals} Goals
 							</div>
@@ -685,10 +692,15 @@ function getInjuries(team) {
 
 /* init app */
 async function initCountries() {
+	// loading ...
+	sideA.countryEl.list.innerHTML = loadingComponent;
+	sideB.countryEl.list.innerHTML = loadingComponent;
+
 	const countries = await getCountries();
 	if (!countries) {
 		return;
 	}
+
 	renderCountries(countries);
 }
 initCountries();
