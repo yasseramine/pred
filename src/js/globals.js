@@ -1,5 +1,5 @@
 const URI = "https://apiv3.apifootball.com/?action=";
-const api_key = "dc793d9dad1eb23ea1e9fb02e3b3d43540948658b12021c5db89e77c2f9acc2a";
+const api_key = "e31671c6fb0bc86c621189a00762b8d47b66fb8ff93b6963a66a2468c1eb3191";
 
 // fall back picture
 function onError() {
