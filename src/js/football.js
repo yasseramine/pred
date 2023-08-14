@@ -600,7 +600,7 @@ function renderChart(ctx, teamA, teamB) {
 		"Loses",
 		"Draws",
 		"Goals for",
-		"Goals aginst",
+		"Goals against",
 		"ٌRed Cards",
 		"Injuries",
 	];
